@@ -1,12 +1,79 @@
 package com.uni.flightfinder
 
-import androidx.appcompat.app.AppCompatActivity
+import android.app.Dialog;
 import android.os.Bundle
+import android.util.SparseArray
+import android.widget.ImageButton
+import android.widget.Toast
+import android.view.View;
 
-class ScanQR : AppCompatActivity() {
+import androidx.appcompat.app.AppCompatActivity
+
+
+import com.google.android.gms.samples.vision.barcodereader.BarcodeCapture
+import com.google.android.gms.samples.vision.barcodereader.BarcodeGraphic
+import com.google.android.gms.vision.barcode.Barcode
+import xyz.belvi.mobilevisionbarcodescanner.BarcodeRetriever
+
+
+class ScanQR : AppCompatActivity(), BarcodeRetriever {
+
+    /*
+    Activity for scanning flight information QR code
+    Scan valid QR code --> Flight information activity
+
+    The class implements googles BarcodeCapture and uses
+    BarcodeRetriever to set up the camera and fragment
+     */
+    private var barcodeCapture : BarcodeCapture? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scan_barcode)
+
+        // init the camera and scanner
+        barcodeCapture = supportFragmentManager.findFragmentById(R.id.barcode) as BarcodeCapture?
+
+        val instructions = Dialog(this)
+        instructions.setContentView(R.layout.qr_instructions)
+
+        val instructionsCancel = instructions.findViewById(R.id.barcodeInstructClose) as ImageButton
+
+        instructionsCancel.setOnClickListener(object : View.OnClickListener{
+            override fun onClick(v: View?) {
+                instructions.dismiss()
+            }})
+
+        //display the instructions and start scanning for QR codes
+        instructions.show()
+        barcodeCapture!!.setRetrieval(this)
+
+    }
+
+    override fun onRetrieved(barcode: Barcode?) {
+
+        runOnUiThread(Runnable { Toast.makeText(applicationContext, barcode?.displayValue, Toast.LENGTH_SHORT).show() })
+    }
+
+    override fun onRetrievedMultiple(closetToClick: Barcode?, barcode: MutableList<BarcodeGraphic>?) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onBitmapScanned(sparseArray: SparseArray<Barcode>?) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onRetrievedFailed(reason: String?) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onPermissionRequestDenied() {
+        runOnUiThread(
+            object : Runnable {
+                override fun run() {
+                    println("Hi")
+                }
+            }
+        )
     }
 }
