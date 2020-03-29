@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/lightBackground"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:theme="?attr/actionBarTheme"
+            android:minHeight="?attr/actionBarSize"
+            android:backgroundTint="@color/lightBackground"
+            app:layout_constraintTop_toTopOf="parent" android:id="@+id/toolbar2">
+
+        <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:tint="@color/colorPrimaryDark"
+                app:srcCompat="@drawable/ic_menu"
+                tools:layout_editor_absoluteY="4dp"
+                tools:layout_editor_absoluteX="0dp"
+                android:id="@+id/imageButton"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/sailec_bold"
+                android:text="Overview"
+                android:textSize="25sp"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_gravity="center"
+                android:id="@+id/toolbar_title"/>
+
+    </androidx.appcompat.widget.Toolbar>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
