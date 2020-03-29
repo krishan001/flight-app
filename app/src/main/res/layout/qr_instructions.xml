@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="300dp"
+              android:layout_height="wrap_content"
+              android:padding="5dp"
+              android:layout_gravity="center"
+              android:background="@android:color/white">
+
+    <ImageButton
+            android:id="@+id/barcodeInstructClose"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="end"
+            android:gravity="center"
+            app:srcCompat="@drawable/close"
+            android:background="@android:color/transparent"
+            android:tint="@color/colorPrimary"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="true"/>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
+
+        <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/tap"
+                android:tint="@color/colorPrimary"/>
+
+        <Space
+                android:layout_width="match_parent"
+                android:layout_height="38dp" />
+
+        <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Touch the screen on the barcode when the barcode is in the camera focus."
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimary"
+                android:textSize="18sp"
+                app:fontFamily="@font/sailec_medium" />
+
+    </LinearLayout>
+
+</LinearLayout>
