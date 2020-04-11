@@ -9,11 +9,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.uni.flightfinder.R
 import kotlinx.android.synthetic.main.activity_flight_info.view.*
+import kotlinx.android.synthetic.main.flight_item.view.*
 
 class FlightListAdaptor(private val flightList: List<FlightItem>) : RecyclerView.Adapter<FlightListAdaptor.ExampleViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExampleViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.activity_flight_info,
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.flight_item,
             parent,false)
 
         return ExampleViewHolder(itemView)
