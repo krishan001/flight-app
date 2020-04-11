@@ -10,3 +10,4 @@ class FlightInfo : AppCompatActivity() {
         setContentView(R.layout.activity_flight_info)
     }
 }
+
