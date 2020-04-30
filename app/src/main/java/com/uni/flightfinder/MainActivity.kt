@@ -1,5 +1,6 @@
 package com.uni.flightfinder
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.*
@@ -7,6 +8,7 @@ import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
 import com.uni.flightfinder.adaptors.Airport
+import com.uni.flightfinder.adaptors.RawFlightItem
 import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -14,7 +16,8 @@ import retrofit2.Response
 
 
 class MainActivity : AppCompatActivity() {
-
+    const val EXTRA_MESSAGE = "com.uni.MainActivity"
+    var toSend:RawFlightItem?=null
     val restServe by lazy{
         restAPI.create()
     }
@@ -45,7 +48,18 @@ class MainActivity : AppCompatActivity() {
 
 
         btnAirport?.setOnClickListener { getAirports(fromText.text.toString(),toText.text.toString()) }
-        destinationBtn?.setOnClickListener { getQuotes( ) }
+        destinationBtn?.setOnClickListener {
+            getQuotes()
+            val intent = Intent(this,ListFlights::class.java)
+
+            //can't be sent as a none primitive type.
+            //using this one now Krish
+            //https://www.androdocs.com/kotlin/starting-and-passing-data-between-activities-with-kotlin.html
+
+            intent.putExtra(EXTRA_MESSAGE, arrayOf(toSend))
+
+            startActivity(intent)
+        }
 
 
         departureDate?.setOnDateChangeListener { _,year,month,day ->
@@ -61,6 +75,7 @@ class MainActivity : AppCompatActivity() {
             }
             outboundDate = ""+year+"-"+monthString+"-"+dayString
             //println(outboundDate)
+
         }
 
         returnDate?.setOnDateChangeListener { _,year,month,day ->
@@ -193,15 +208,25 @@ class MainActivity : AppCompatActivity() {
         maker.enqueue(object: Callback<JsonObject>{
             override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
                 println("\n\nR:"+response)
-                if (response.isSuccessful){
+                if (response.isSuccessful) {
                     val api: JsonObject? = response.body()
 
-                    var jsonString:String=api.toString()
+                    var jsonString: String = api.toString()
 
                     println(api)
                     println(jsonString)
 
-                    /*jsonString=jsonString.drop(10)
+                    val gson = Gson()
+                    val token = object : TypeToken<RawFlightItem>() {}.type
+
+                    toSend = gson.fromJson(jsonString, token)
+
+                    //println("TOSTRING:" + toSend.toString())
+
+
+
+                    /*
+                    jsonString=jsonString.drop(10)
                     jsonString=jsonString.dropLast(1)
 
                     //make list of shenanigans
