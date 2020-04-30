@@ -1,17 +1,12 @@
 package com.uni.flightfinder
-import com.uni.flightfinder.adaptors.Airport
 
-import android.app.SearchableInfo
-import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import org.json.JSONArray
-import org.json.JSONObject
+
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
-import java.util.*
 
 
 interface restAPI {

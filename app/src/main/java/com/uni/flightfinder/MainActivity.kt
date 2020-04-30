@@ -48,11 +48,11 @@ class MainActivity : AppCompatActivity() {
 
 
         btnAirport?.setOnClickListener { getAirports(fromText.text.toString(),toText.text.toString()) }
-        departureDate?.setOnDateChangeListener { view,year,month,day ->
+        departureDate?.setOnDateChangeListener { _,year,month,day ->
             outboundDate = ""+year+"-"+(month+1)+"-"+day
             println(outboundDate)
         }
-        returnDate?.setOnDateChangeListener { view,year,month,day ->
+        returnDate?.setOnDateChangeListener { _,year,month,day ->
             inboundDate = ""+year+"-"+(month+1)+"-"+day
             println(inboundDate)
         }
