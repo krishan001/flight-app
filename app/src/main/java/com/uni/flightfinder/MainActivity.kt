@@ -18,12 +18,10 @@ class MainActivity : AppCompatActivity() {
     val restServe by lazy{
         restAPI.create()
     }
-
     var FromList = mutableListOf("")
     var ToList = mutableListOf("")
-
-
-
+    var outboundDate:String=""
+    var inboundDate:String=""
     //var disposable: Disposable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,8 +33,7 @@ class MainActivity : AppCompatActivity() {
 
         val departureDate = findViewById<CalendarView>(R.id.departureCalendarView)
         val returnDate = findViewById<CalendarView>(R.id.returnCalendarView)
-        var outboundDate:String
-        var inboundDate:String
+
 
         updateFrom()
         updateTo()
@@ -48,25 +45,44 @@ class MainActivity : AppCompatActivity() {
 
 
         btnAirport?.setOnClickListener { getAirports(fromText.text.toString(),toText.text.toString()) }
+        destinationBtn?.setOnClickListener { getQuotes( ) }
+
+
         departureDate?.setOnDateChangeListener { _,year,month,day ->
-            outboundDate = ""+year+"-"+(month+1)+"-"+day
-            println(outboundDate)
+            var monthString =""
+            var dayString = ""
+            if (month+1<10){
+                monthString="0"+(month+1).toString()
+            } else {
+                monthString=(month+1).toString()
+            }
+            if (day<10){
+                dayString="0"+(day).toString()
+            }
+            outboundDate = ""+year+"-"+monthString+"-"+dayString
+            //println(outboundDate)
         }
+
         returnDate?.setOnDateChangeListener { _,year,month,day ->
-            inboundDate = ""+year+"-"+(month+1)+"-"+day
-            println(inboundDate)
+            var monthString =""
+            var dayString = ""
+            if (month+1<10){
+                monthString="0"+(month+1).toString()
+            } else {
+                monthString=(month+1).toString()
+            }
+            if (day<10){
+                dayString="0"+(day).toString()
+            }
+            inboundDate = ""+year+"-"+monthString+"-"+dayString
+            //println(inboundDate)
         }
 
-
-
-
-        //loop over x and put it in the spinner...?
-        //set the values in the departure spinner to be the data from the request
-        //for loop over each element? bufferedReader.forEachLine()?
 
 
 
     }
+
     private fun updateTo(){
         val toArrayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, ToList)
         toArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -80,8 +96,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-
-    private fun  getAirports(from:String,to:String){
+    private fun getAirports(from:String,to:String){
 
         getAirports(from)
 
@@ -106,11 +121,10 @@ class MainActivity : AppCompatActivity() {
                     var x:MutableList<String> = mutableListOf()
 
                     split.forEachIndexed{_,air->
-                        x.add(air.PlaceName+","+air.CountryName+"("+air.CityId+")")
+                        x.add(air.PlaceName+", "+air.CountryName+"("+air.PlaceId.split("-")[0]+")")
                     }
 
                     ToList=x
-                    println("X:$x")
                     updateTo()
                 }
                 else{
@@ -128,9 +142,6 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-
-
-
     private fun getAirports(from:String){
         var makerFrom = restServe.getAirports(from) //needs to take data from the text box(es)
         makerFrom.enqueue(object: Callback<JsonObject>{
@@ -143,7 +154,6 @@ class MainActivity : AppCompatActivity() {
 
                     jsonString=jsonString.drop(10)
                     jsonString=jsonString.dropLast(1)
-                    println("\nJSONSTRING:$jsonString")
 
                     val gson=Gson()
                     val arrayAirport = object : TypeToken<Array<Airport>>() {}.type
@@ -152,17 +162,66 @@ class MainActivity : AppCompatActivity() {
 
                     var x:MutableList<String> = mutableListOf()
 
-                    split.forEachIndexed{idx,air->
-                        x.add(air.PlaceName+","+air.CountryName+"("+air.CityId+")")
+                    split.forEachIndexed{_,air->
+                        x.add(air.PlaceName+", "+air.CountryName+"("+air.PlaceId.split("-")[0]+")")
                     }
 
                     FromList=x
-                    println("X:$x\nfromList:$FromList")
                     updateFrom()
 
                 }
                 else{
 
+
+                    Toast.makeText(this@MainActivity,response.body().toString(),Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@MainActivity,response.message(),Toast.LENGTH_SHORT).show()
+
+                }
+            }
+
+            override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                Toast.makeText(this@MainActivity,"Api not responding",Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    private fun getQuotes(){
+        var sendDepart=departingSpinner.selectedItem.toString().split("(")[1].split(")")[0]+"-sky"
+        var sendDestination=destinationSpinner.selectedItem.toString().split("(")[1].split(")")[0]+"-sky"
+
+        var maker = restServe.getQuotes(sendDepart,sendDestination,outboundDate,inboundDate) //needs to take data from the text box(es)
+        maker.enqueue(object: Callback<JsonObject>{
+            override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+                println("\n\nR:"+response)
+                if (response.isSuccessful){
+                    val api: JsonObject? = response.body()
+
+                    var jsonString:String=api.toString()
+
+                    println(api)
+                    println(jsonString)
+
+                    /*jsonString=jsonString.drop(10)
+                    jsonString=jsonString.dropLast(1)
+
+                    //make list of shenanigans
+
+                    val gson=Gson()
+                    val arrayAirport = object : TypeToken<Array<Airport>>() {}.type
+
+                    val split:Array<Airport> = gson.fromJson(jsonString,arrayAirport)
+
+                    var x:MutableList<String> = mutableListOf()
+
+                    split.forEachIndexed{_,air->
+                        x.add(air.PlaceName+", "+air.CountryName+"( "+air.PlaceId.split("-")[0]+" )")
+                    }
+
+                    FromList=x
+                    updateFrom()*/
+
+                }
+                else{
 
                     Toast.makeText(this@MainActivity,response.body().toString(),Toast.LENGTH_SHORT).show()
                     Toast.makeText(this@MainActivity,response.message(),Toast.LENGTH_SHORT).show()

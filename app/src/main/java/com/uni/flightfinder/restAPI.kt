@@ -46,7 +46,7 @@ interface restAPI {
     //use the skyscanner code in the title?
     //need to make the data struct for the airport itself
     @GET("apiservices/browsequotes/v1.0/UK/GBP/en-US/{departing}/{destination}/{outboundDate}/") //  query in this order: -String manipulation from to date out and query date in as a header
-    fun getRoutes(@Path("departing") departing:String, @Path("destination") destination:String, @Path("outboundDate") outboundDate:String, @Query("inboundpartialdate") inboundpartialdate: String): Call<JsonObject>
+    fun getQuotes(@Path("departing") departing:String, @Path("destination") destination:String, @Path("outboundDate") outboundDate:String, @Query("inboundpartialdate") inboundpartialdate: String): Call<JsonObject>
 
 
 
