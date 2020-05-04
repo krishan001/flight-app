@@ -16,7 +16,8 @@ import retrofit2.Response
 
 
 class MainActivity : AppCompatActivity() {
-    const val EXTRA_MESSAGE = "com.uni.MainActivity"
+
+    val EXTRA_MESSAGE = "com.uni.MainActivity"
     var toSend:RawFlightItem?=null
     val restServe by lazy{
         restAPI.create()
