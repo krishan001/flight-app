@@ -59,9 +59,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/afi_returnTimeData"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="-32dp"
-        android:layout_toEndOf="@id/afi_returnTimeData"
+        android:layout_toEndOf="@+id/afi_returnDirectData"
         android:fontFamily="@font/sailec_medium"
         android:text="9:00"
         android:textColor="#000000"
@@ -72,9 +72,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/afi_returnTimeData"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="40dp"
         android:layout_marginBottom="-32dp"
-        android:layout_toEndOf="@id/afi_returnTimeData"
+        android:layout_toEndOf="@+id/afi_returnDirectData"
         android:fontFamily="@font/sailec_medium"
         android:text="10:50"
         android:textColor="#000000"
@@ -164,9 +164,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/afi_outbountTimeData"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="-32dp"
-        android:layout_toEndOf="@+id/afi_outbountTimeData"
+        android:layout_toEndOf="@+id/afi_outbountDirectData"
         android:fontFamily="@font/sailec_medium"
         android:text="9:00"
         android:textColor="#000000"
@@ -177,9 +177,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/afi_outbountTimeData"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="40dp"
         android:layout_marginBottom="-32dp"
-        android:layout_toEndOf="@+id/afi_outbountTimeData"
+        android:layout_toEndOf="@+id/afi_outbountDirectData"
         android:fontFamily="@font/sailec_medium"
         android:text="10:50"
         android:textColor="#000000"
@@ -218,5 +218,46 @@
         android:fontFamily="@font/sailec_medium"
         android:onClick="generateQRCode"
         android:text="Generate QR Code" />
+
+    <TextView
+        android:id="@+id/afi_outbountDirectData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/afi_outbountTimeData"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="0dp"
+        android:layout_toEndOf="@+id/afi_outbountTimeData"
+        android:text="Direct"
+        android:textColor="#000000" />
+
+    <TextView
+        android:id="@+id/afi_returnDirectData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/afi_returnTimeData"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/afi_returnTimeData"
+        android:text="Direct"
+        android:textColor="#000000" />
+
+    <ImageView
+        android:id="@+id/afi_outboundDestImage"
+        android:layout_width="39dp"
+        android:layout_height="78dp"
+        android:layout_alignTop="@+id/afi_outbountDirectData"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="-30dp"
+        android:layout_toEndOf="@+id/afi_outbountDirectData"
+        app:srcCompat="@drawable/ic_destinationvector" />
+
+    <ImageView
+        android:id="@+id/afi_outboundDestImage2"
+        android:layout_width="39dp"
+        android:layout_height="78dp"
+        android:layout_alignTop="@+id/afi_returnDirectData"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="-30dp"
+        android:layout_toEndOf="@+id/afi_returnDirectData"
+        app:srcCompat="@drawable/ic_destinationvector" />
 
 </RelativeLayout>
