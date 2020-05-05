@@ -18,7 +18,7 @@ import com.uni.flightfinder.adaptors.RawFlightItem
 
 
 class ListFlights : AppCompatActivity() {
-
+    var toSend:RawFlightItem?=null
     private val restServe by lazy{
         restAPI.create()
     }
@@ -31,8 +31,8 @@ class ListFlights : AppCompatActivity() {
         setContentView(R.layout.activity_list_flights)
         val toProcess = intent.getSerializableExtra("com.uni.MainActivity") as ArrayList<String>
         println("TO PROCESS $toProcess")
-        val quotes = getQuotes(toProcess[0], toProcess[1], toProcess[2], toProcess[3])
-        val flightList = getFlightList(quotes)
+        getQuotes(toProcess[0], toProcess[1], toProcess[2], toProcess[3])
+        val flightList = getFlightList(toSend)
         val exampleList = generateDummyList(100)
         recycler_view.adapter = FlightListAdaptor(flightList)
         recycler_view.layoutManager = LinearLayoutManager(this)
@@ -101,8 +101,8 @@ class ListFlights : AppCompatActivity() {
 
 
 
-    private fun getQuotes(sendDepart: String, sendDestination: String, outboundDate: String, inboundDate: String ): RawFlightItem?{
-        var toSend:RawFlightItem?=null
+    private fun getQuotes(sendDepart: String, sendDestination: String, outboundDate: String, inboundDate: String ){
+
 
         //swap outbound and inbound date to be from the intent.
         var maker = restServe.getQuotes(sendDepart,sendDestination,outboundDate,inboundDate) //needs to take data from the text box(es)
@@ -135,6 +135,6 @@ class ListFlights : AppCompatActivity() {
         })
 
         println("RETURN $toSend")
-        return toSend
+
     }
 }
