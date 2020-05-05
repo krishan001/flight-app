@@ -56,9 +56,10 @@ class MainActivity : AppCompatActivity() {
         destinationBtn?.setOnClickListener {
             nextPageIntent = Intent(this,ListFlights::class.java)
             var q = getQuotes()
-            if (toSend!=null){
-                print("GOOD TO GO!")
-                nextPageIntent.putExtra(EXTRA_MESSAGE,toSend)
+            println("HERE")
+            if (q!=null){
+                println("GOOD TO GO!")
+                nextPageIntent.putExtra(EXTRA_MESSAGE,q)
                 startActivity(nextPageIntent)
             }
         }
@@ -228,7 +229,7 @@ class MainActivity : AppCompatActivity() {
 
                     toSend = gson.fromJson(jsonString, token)
 
-                    println(toSend)
+                    println("TOSEND $toSend")
                 }
                 else{
 
@@ -242,7 +243,7 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this@MainActivity,"Api not responding",Toast.LENGTH_SHORT).show()
             }
         })
-
+        println("RETURN $toSend")
         return toSend
     }
 }
