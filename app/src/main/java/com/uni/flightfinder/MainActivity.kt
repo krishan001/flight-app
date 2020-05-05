@@ -51,10 +51,11 @@ class MainActivity : AppCompatActivity() {
 
         btnAirport?.setOnClickListener { getAirports(fromText.text.toString(),toText.text.toString()) }
         destinationBtn?.setOnClickListener {
-            getQuotes()
+            val q = getQuotes()
+            println("TOSTRING:$q")
             val intent = Intent(this,ListFlights::class.java)
             val bundle:Bundle = bundleOf()
-            bundle.putSerializable(EXTRA_MESSAGE, toSend)
+            bundle.putSerializable(EXTRA_MESSAGE, q)
             intent.putExtras(bundle)
             //can't be sent as a none primitive type.
             //using this one now Krish
@@ -76,7 +77,7 @@ class MainActivity : AppCompatActivity() {
             if (day<10){
                 dayString="0"+(day).toString()
             }
-            outboundDate = ""+year+"-"+monthString+"-"+dayString
+            outboundDate = "$year-$monthString-$dayString"
             //println(outboundDate)
 
         }
@@ -92,7 +93,7 @@ class MainActivity : AppCompatActivity() {
             if (day<10){
                 dayString="0"+(day).toString()
             }
-            inboundDate = ""+year+"-"+monthString+"-"+dayString
+            inboundDate = "$year-$monthString-$dayString"
             //println(inboundDate)
         }
 
@@ -104,13 +105,13 @@ class MainActivity : AppCompatActivity() {
     private fun updateTo(){
         val toArrayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, ToList)
         toArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        destinationSpinner!!.setAdapter(toArrayAdapter)
+        destinationSpinner!!.adapter = toArrayAdapter
     }
 
     private fun updateFrom(){
         val fromArrayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, FromList)
         fromArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        departingSpinner!!.setAdapter(fromArrayAdapter)
+        departingSpinner!!.adapter = fromArrayAdapter
 
     }
 
@@ -203,28 +204,28 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun getQuotes(){
+    private fun getQuotes(): RawFlightItem?{
         var sendDepart=departingSpinner.selectedItem.toString().split("(")[1].split(")")[0]+"-sky"
         var sendDestination=destinationSpinner.selectedItem.toString().split("(")[1].split(")")[0]+"-sky"
 
         var maker = restServe.getQuotes(sendDepart,sendDestination,outboundDate,inboundDate) //needs to take data from the text box(es)
         maker.enqueue(object: Callback<JsonObject>{
             override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
-                println("\n\nR:"+response)
+                println("\n\nR:$response")
                 if (response.isSuccessful) {
                     val api: JsonObject? = response.body()
 
                     var jsonString: String = api.toString()
 
-                    println(api)
-                    println(jsonString)
+//                    println(api)
+//                    println(jsonString)
 
                     val gson = Gson()
                     val token = object : TypeToken<RawFlightItem>() {}.type
 
                     toSend = gson.fromJson(jsonString, token)
 
-                    //println("TOSTRING:" + toSend.toString())
+                    println("TO SEND IN FUNC:" + toSend.toString())
 
 
 
@@ -261,6 +262,7 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this@MainActivity,"Api not responding",Toast.LENGTH_SHORT).show()
             }
         })
+        return toSend
     }
 }
 
