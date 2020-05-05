@@ -1,22 +1,39 @@
 package com.uni.flightfinder
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.gson.Gson
+import com.google.gson.JsonObject
+import com.google.gson.reflect.TypeToken
 import com.uni.flightfinder.adaptors.*
 import kotlinx.android.synthetic.main.activity_list_flights.*
+import kotlinx.android.synthetic.main.activity_main.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import com.uni.flightfinder.adaptors.RawFlightItem
+
 
 
 class ListFlights : AppCompatActivity() {
 
+    val restServe by lazy{
+        restAPI.create()
+    }
+
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list_flights)
-        val quotes = intent.getSerializableExtra("com.uni.MainActivity") as? RawFlightItem
-        println(quotes.toString())
+  //      val quotes = intent.getSerializableExtra("com.uni.MainActivity") as? RawFlightItem
+   //     println(quotes.toString())
         val exampleList = generateDummyList(100)
-        val flightList = getFlightList(quotes)
-        recycler_view.adapter = FlightListAdaptor(flightList)
+//        val flightList = getFlightList(quotes)
+        recycler_view.adapter = FlightListAdaptor(exampleList)
         recycler_view.layoutManager = LinearLayoutManager(this)
         recycler_view.setHasFixedSize(true)
     }
@@ -78,4 +95,48 @@ class ListFlights : AppCompatActivity() {
         }
         return code
     }
+
+
+
+
+/*
+    private fun getQuotes(): RawFlightItem?{
+
+        //var sendDepart=departingSpinner.selectedItem.toString().split("(")[1].split(")")[0]+"-sky"
+        //var sendDestination=destinationSpinner.selectedItem.toString().split("(")[1].split(")")[0]+"-sky"
+        var toSend:RawFlightItem?=null
+
+        //swap outbound and inbound date to be from the intent.
+        var maker = restServe.getQuotes(sendDepart,sendDestination,outboundDate,inboundDate) //needs to take data from the text box(es)
+
+        maker.enqueue(object: Callback<JsonObject> {
+            override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+                if (response.isSuccessful) {
+                    val api: JsonObject? = response.body()
+
+                    var jsonString: String = api.toString()
+
+                    val gson = Gson()
+                    val token = object : TypeToken<RawFlightItem>() {}.type
+
+                    //this is to become the parseable variable
+                    toSend = gson.fromJson(jsonString, token)
+
+                }
+                else{
+
+                    Toast.makeText(this@ListFlights,response.body().toString(), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@ListFlights,response.message(), Toast.LENGTH_SHORT).show()
+
+                }
+            }
+
+            override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                Toast.makeText(this@ListFlights,"Api not responding", Toast.LENGTH_SHORT).show()
+            }
+        })
+
+        //println("RETURN $toSend")
+        return toSend
+    }*/
 }
