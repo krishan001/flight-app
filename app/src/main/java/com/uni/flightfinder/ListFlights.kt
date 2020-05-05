@@ -62,7 +62,7 @@ class ListFlights : AppCompatActivity() {
                 val departureAirportCodes = "$outbound - $inbound"
                 val returnAirportCodes = "$inbound - $outbound"
                 val flight = FlightItem(drawable,"07:45 - 09:45", departureAirportCodes, direct, "2h 28m",
-                    "21:30 - 22:50", returnAirportCodes, direct, "2h 25m", cost )
+                    "21:30 - 22:50", returnAirportCodes, direct, "2h 25m", "£$cost" )
                 list += flight
 
             }
