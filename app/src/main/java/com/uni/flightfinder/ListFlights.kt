@@ -32,11 +32,7 @@ class ListFlights : AppCompatActivity() {
         val toProcess = intent.getSerializableExtra("com.uni.MainActivity") as ArrayList<String>
         println("TO PROCESS $toProcess")
         getQuotes(toProcess[0], toProcess[1], toProcess[2], toProcess[3])
-        val flightList = getFlightList(toSend)
-        val exampleList = generateDummyList(100)
-        recycler_view.adapter = FlightListAdaptor(flightList)
-        recycler_view.layoutManager = LinearLayoutManager(this)
-        recycler_view.setHasFixedSize(true)
+
     }
 
     private fun generateDummyList(size:Int): List<FlightItem>{
@@ -120,6 +116,12 @@ class ListFlights : AppCompatActivity() {
                     //this is to become the parseable variable
                     toSend = gson.fromJson(jsonString, token)
                     println("TO SEND $toSend")
+
+                    val flightList = getFlightList(toSend)
+                    val exampleList = generateDummyList(100)
+                    recycler_view.adapter = FlightListAdaptor(flightList)
+                    recycler_view.layoutManager = LinearLayoutManager(this@ListFlights)
+                    recycler_view.setHasFixedSize(true)
                 }
                 else{
 
