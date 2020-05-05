@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.*
+import androidx.core.os.bundleOf
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
@@ -52,12 +53,13 @@ class MainActivity : AppCompatActivity() {
         destinationBtn?.setOnClickListener {
             getQuotes()
             val intent = Intent(this,ListFlights::class.java)
-
+            val bundle:Bundle = bundleOf()
+            bundle.putSerializable(EXTRA_MESSAGE, toSend)
+            intent.putExtras(bundle)
             //can't be sent as a none primitive type.
             //using this one now Krish
             //https://www.androdocs.com/kotlin/starting-and-passing-data-between-activities-with-kotlin.html
-
-            intent.putExtra(EXTRA_MESSAGE, arrayOf(toSend))
+//            intent.putExtra(EXTRA_MESSAGE, arrayOf(toSend))
 
             startActivity(intent)
         }
