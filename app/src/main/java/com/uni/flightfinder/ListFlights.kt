@@ -19,7 +19,7 @@ import com.uni.flightfinder.adaptors.RawFlightItem
 
 class ListFlights : AppCompatActivity() {
 
-    val restServe by lazy{
+    private val restServe by lazy{
         restAPI.create()
     }
 
@@ -29,11 +29,12 @@ class ListFlights : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list_flights)
-  //      val quotes = intent.getSerializableExtra("com.uni.MainActivity") as? RawFlightItem
-   //     println(quotes.toString())
+        val toProcess = intent.getSerializableExtra("com.uni.MainActivity") as ArrayList<String>
+        println("TO PROCESS $toProcess")
+        val quotes = getQuotes(toProcess[0], toProcess[1], toProcess[2], toProcess[3])
+        val flightList = getFlightList(quotes)
         val exampleList = generateDummyList(100)
-//        val flightList = getFlightList(quotes)
-        recycler_view.adapter = FlightListAdaptor(exampleList)
+        recycler_view.adapter = FlightListAdaptor(flightList)
         recycler_view.layoutManager = LinearLayoutManager(this)
         recycler_view.setHasFixedSize(true)
     }
@@ -99,11 +100,8 @@ class ListFlights : AppCompatActivity() {
 
 
 
-/*
-    private fun getQuotes(): RawFlightItem?{
 
-        //var sendDepart=departingSpinner.selectedItem.toString().split("(")[1].split(")")[0]+"-sky"
-        //var sendDestination=destinationSpinner.selectedItem.toString().split("(")[1].split(")")[0]+"-sky"
+    private fun getQuotes(sendDepart: String, sendDestination: String, outboundDate: String, inboundDate: String ): RawFlightItem?{
         var toSend:RawFlightItem?=null
 
         //swap outbound and inbound date to be from the intent.
@@ -121,7 +119,7 @@ class ListFlights : AppCompatActivity() {
 
                     //this is to become the parseable variable
                     toSend = gson.fromJson(jsonString, token)
-
+                    println("TO SEND $toSend")
                 }
                 else{
 
@@ -136,7 +134,7 @@ class ListFlights : AppCompatActivity() {
             }
         })
 
-        //println("RETURN $toSend")
+        println("RETURN $toSend")
         return toSend
-    }*/
+    }
 }

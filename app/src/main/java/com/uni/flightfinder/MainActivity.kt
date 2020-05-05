@@ -64,7 +64,9 @@ class MainActivity : AppCompatActivity() {
                 departingSpinner.selectedItem.toString().split("(")[1].split(")")[0] + "-sky"
             var sendDestination =
                 destinationSpinner.selectedItem.toString().split("(")[1].split(")")[0] + "-sky"
-            var toSend = arrayOf(sendDepart, sendDestination, outboundDate, inboundDate)
+            var toSend = arrayListOf(sendDepart, sendDestination, outboundDate, inboundDate)
+
+//            var toSend = arrayOf(sendDepart, sendDestination, outboundDate, inboundDate)
             println("GOOD TO GO!")
             nextPageIntent.putExtra(EXTRA_MESSAGE, toSend)
             startActivity(nextPageIntent)
