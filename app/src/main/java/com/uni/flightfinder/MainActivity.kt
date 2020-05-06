@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.*
+import androidx.core.os.bundleOf
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
@@ -13,18 +14,20 @@ import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.IOException
 
 
 class MainActivity : AppCompatActivity() {
-    const val EXTRA_MESSAGE = "com.uni.MainActivity"
-    var toSend:RawFlightItem?=null
-    val restServe by lazy{
+
+    val EXTRA_MESSAGE = "com.uni.MainActivity"
+    lateinit var nextPageIntent: Intent
+    val restServe by lazy {
         restAPI.create()
     }
     var FromList = mutableListOf("")
     var ToList = mutableListOf("")
-    var outboundDate:String=""
-    var inboundDate:String=""
+    var outboundDate: String = ""
+    var inboundDate: String = ""
     //var disposable: Disposable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,225 +45,182 @@ class MainActivity : AppCompatActivity() {
         updateTo()
 
         val btnAirport = findViewById<Button>(R.id.findAirportsBtn)
-        var fromText=findViewById<EditText>(R.id.fromText)
-        var toText=findViewById<EditText>(R.id.toText)
+        var fromText = findViewById<EditText>(R.id.fromText)
+        var toText = findViewById<EditText>(R.id.toText)
 
 
-
-        btnAirport?.setOnClickListener { getAirports(fromText.text.toString(),toText.text.toString()) }
-        destinationBtn?.setOnClickListener {
-            getQuotes()
-            val intent = Intent(this,ListFlights::class.java)
-
-            //can't be sent as a none primitive type.
-            //using this one now Krish
-            //https://www.androdocs.com/kotlin/starting-and-passing-data-between-activities-with-kotlin.html
-
-            intent.putExtra(EXTRA_MESSAGE, arrayOf(toSend))
-
-            startActivity(intent)
+        //sets button listener.
+        btnAirport?.setOnClickListener {
+            getAirports(
+                fromText.text.toString(),
+                toText.text.toString()
+            )
         }
 
+        //sets button listener.
+        destinationBtn?.setOnClickListener {
+            nextPageIntent = Intent(this, ListFlights::class.java)
+            var sendDepart =
+                departingSpinner.selectedItem.toString().split("(")[1].split(")")[0] + "-sky"
+            var sendDestination =
+                destinationSpinner.selectedItem.toString().split("(")[1].split(")")[0] + "-sky"
+            var toSend = arrayListOf(sendDepart, sendDestination, outboundDate, inboundDate)
 
-        departureDate?.setOnDateChangeListener { _,year,month,day ->
-            var monthString =""
+//            var toSend = arrayOf(sendDepart, sendDestination, outboundDate, inboundDate)
+            println("GOOD TO GO!")
+            nextPageIntent.putExtra(EXTRA_MESSAGE, toSend)
+            startActivity(nextPageIntent)
+        }
+
+        //updates callendar value
+        departureDate?.setOnDateChangeListener { _, year, month, day ->
+            var monthString = ""
             var dayString = ""
-            if (month+1<10){
-                monthString="0"+(month+1).toString()
+            if (month + 1 < 10) {
+                monthString = "0" + (month + 1).toString()
             } else {
-                monthString=(month+1).toString()
+                monthString = (month + 1).toString()
             }
-            if (day<10){
-                dayString="0"+(day).toString()
+            if (day < 10) {
+                dayString = "0" + (day).toString()
             }
-            outboundDate = ""+year+"-"+monthString+"-"+dayString
+            outboundDate = "$year-$monthString-$dayString"
             //println(outboundDate)
 
         }
 
-        returnDate?.setOnDateChangeListener { _,year,month,day ->
-            var monthString =""
+        //updates callendar value
+        returnDate?.setOnDateChangeListener { _, year, month, day ->
+            var monthString = ""
             var dayString = ""
-            if (month+1<10){
-                monthString="0"+(month+1).toString()
+            if (month + 1 < 10) {
+                monthString = "0" + (month + 1).toString()
             } else {
-                monthString=(month+1).toString()
+                monthString = (month + 1).toString()
             }
-            if (day<10){
-                dayString="0"+(day).toString()
+            if (day < 10) {
+                dayString = "0" + (day).toString()
             }
-            inboundDate = ""+year+"-"+monthString+"-"+dayString
+            inboundDate = "$year-$monthString-$dayString"
             //println(inboundDate)
         }
 
 
-
-
     }
 
-    private fun updateTo(){
+    //updates the arrays and spinners for the available airports.
+    private fun updateTo() {
         val toArrayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, ToList)
         toArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        destinationSpinner!!.setAdapter(toArrayAdapter)
+        destinationSpinner!!.adapter = toArrayAdapter
     }
 
-    private fun updateFrom(){
+    //updates the arrays and spinners for the available airports.
+    private fun updateFrom() {
         val fromArrayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, FromList)
         fromArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        departingSpinner!!.setAdapter(fromArrayAdapter)
+        departingSpinner!!.adapter = fromArrayAdapter
 
     }
 
-    private fun getAirports(from:String,to:String){
+
+    //gets airports using from and to strings.
+    private fun getAirports(from: String, to: String) {
 
         getAirports(from)
 
         var makerTo = restServe.getAirports(to)
 
-        makerTo.enqueue(object: Callback<JsonObject>{
+        makerTo.enqueue(object : Callback<JsonObject> {
             override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
 
-                if (response.isSuccessful){
-                    val api: JsonObject? = response.body()
-
-                    var jsonString:String=api.toString()
-
-                    jsonString=jsonString.drop(10)
-                    jsonString=jsonString.dropLast(1)
-
-                    val gson=Gson()
-                    val arrayAirport = object : TypeToken<Array<Airport>>() {}.type
-
-                    val split:Array<Airport> = gson.fromJson(jsonString,arrayAirport)
-
-                    var x:MutableList<String> = mutableListOf()
-
-                    split.forEachIndexed{_,air->
-                        x.add(air.PlaceName+", "+air.CountryName+"("+air.PlaceId.split("-")[0]+")")
-                    }
-
-                    ToList=x
-                    updateTo()
-                }
-                else{
-
-
-                    Toast.makeText(this@MainActivity,response.body().toString(),Toast.LENGTH_SHORT).show()
-                    Toast.makeText(this@MainActivity,response.message(),Toast.LENGTH_SHORT).show()
-
-                }
-            }
-
-            override fun onFailure(call: Call<JsonObject>, t: Throwable) {
-                Toast.makeText(this@MainActivity,"Api not responding",Toast.LENGTH_SHORT).show()
-            }
-        })
-    }
-
-    private fun getAirports(from:String){
-        var makerFrom = restServe.getAirports(from) //needs to take data from the text box(es)
-        makerFrom.enqueue(object: Callback<JsonObject>{
-            override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
-
-                if (response.isSuccessful){
-                    val api: JsonObject? = response.body()
-
-                    var jsonString:String=api.toString()
-
-                    jsonString=jsonString.drop(10)
-                    jsonString=jsonString.dropLast(1)
-
-                    val gson=Gson()
-                    val arrayAirport = object : TypeToken<Array<Airport>>() {}.type
-
-                    val split:Array<Airport> = gson.fromJson(jsonString,arrayAirport)
-
-                    var x:MutableList<String> = mutableListOf()
-
-                    split.forEachIndexed{_,air->
-                        x.add(air.PlaceName+", "+air.CountryName+"("+air.PlaceId.split("-")[0]+")")
-                    }
-
-                    FromList=x
-                    updateFrom()
-
-                }
-                else{
-
-
-                    Toast.makeText(this@MainActivity,response.body().toString(),Toast.LENGTH_SHORT).show()
-                    Toast.makeText(this@MainActivity,response.message(),Toast.LENGTH_SHORT).show()
-
-                }
-            }
-
-            override fun onFailure(call: Call<JsonObject>, t: Throwable) {
-                Toast.makeText(this@MainActivity,"Api not responding",Toast.LENGTH_SHORT).show()
-            }
-        })
-    }
-
-    private fun getQuotes(){
-        var sendDepart=departingSpinner.selectedItem.toString().split("(")[1].split(")")[0]+"-sky"
-        var sendDestination=destinationSpinner.selectedItem.toString().split("(")[1].split(")")[0]+"-sky"
-
-        var maker = restServe.getQuotes(sendDepart,sendDestination,outboundDate,inboundDate) //needs to take data from the text box(es)
-        maker.enqueue(object: Callback<JsonObject>{
-            override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
-                println("\n\nR:"+response)
                 if (response.isSuccessful) {
                     val api: JsonObject? = response.body()
 
                     var jsonString: String = api.toString()
 
-                    println(api)
-                    println(jsonString)
+                    jsonString = jsonString.drop(10)
+                    jsonString = jsonString.dropLast(1)
 
                     val gson = Gson()
-                    val token = object : TypeToken<RawFlightItem>() {}.type
-
-                    toSend = gson.fromJson(jsonString, token)
-
-                    //println("TOSTRING:" + toSend.toString())
-
-
-
-                    /*
-                    jsonString=jsonString.drop(10)
-                    jsonString=jsonString.dropLast(1)
-
-                    //make list of shenanigans
-
-                    val gson=Gson()
                     val arrayAirport = object : TypeToken<Array<Airport>>() {}.type
 
-                    val split:Array<Airport> = gson.fromJson(jsonString,arrayAirport)
+                    val split: Array<Airport> = gson.fromJson(jsonString, arrayAirport)
 
-                    var x:MutableList<String> = mutableListOf()
+                    var x: MutableList<String> = mutableListOf()
 
-                    split.forEachIndexed{_,air->
-                        x.add(air.PlaceName+", "+air.CountryName+"( "+air.PlaceId.split("-")[0]+" )")
+                    split.forEachIndexed { _, air ->
+                        x.add(air.PlaceName + ", " + air.CountryName + "(" + air.PlaceId.split("-")[0] + ")")
                     }
 
-                    FromList=x
-                    updateFrom()*/
+                    ToList = x
+                    updateTo()
+                } else {
 
-                }
-                else{
 
-                    Toast.makeText(this@MainActivity,response.body().toString(),Toast.LENGTH_SHORT).show()
-                    Toast.makeText(this@MainActivity,response.message(),Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@MainActivity,
+                        response.body().toString(),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    Toast.makeText(this@MainActivity, response.message(), Toast.LENGTH_SHORT).show()
 
                 }
             }
 
             override fun onFailure(call: Call<JsonObject>, t: Throwable) {
-                Toast.makeText(this@MainActivity,"Api not responding",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MainActivity, "Api not responding", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    //gets airports using the from string.
+    private fun getAirports(from: String) {
+        var makerFrom = restServe.getAirports(from) //needs to take data from the text box(es)
+        makerFrom.enqueue(object : Callback<JsonObject> {
+            override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+
+                if (response.isSuccessful) {
+                    val api: JsonObject? = response.body()
+
+                    var jsonString: String = api.toString()
+
+                    jsonString = jsonString.drop(10)
+                    jsonString = jsonString.dropLast(1)
+
+                    val gson = Gson()
+                    val arrayAirport = object : TypeToken<Array<Airport>>() {}.type
+
+                    val split: Array<Airport> = gson.fromJson(jsonString, arrayAirport)
+
+                    var x: MutableList<String> = mutableListOf()
+
+                    split.forEachIndexed { _, air ->
+                        x.add(air.PlaceName + ", " + air.CountryName + "(" + air.PlaceId.split("-")[0] + ")")
+                    }
+
+                    FromList = x
+                    updateFrom()
+
+                } else {
+
+
+                    Toast.makeText(
+                        this@MainActivity,
+                        response.body().toString(),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    Toast.makeText(this@MainActivity, response.message(), Toast.LENGTH_SHORT).show()
+
+                }
+            }
+
+            override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                Toast.makeText(this@MainActivity, "Api not responding", Toast.LENGTH_SHORT).show()
             }
         })
     }
 }
-
 
 //data class Destinations(
 //   val
