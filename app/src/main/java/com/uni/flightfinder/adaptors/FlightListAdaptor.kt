@@ -1,13 +1,17 @@
 package com.uni.flightfinder.adaptors
 
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.uni.flightfinder.FlightInfo
+import com.uni.flightfinder.ListFlights
 import com.uni.flightfinder.R
+import com.uni.flightfinder.ShowQR
 import kotlinx.android.synthetic.main.activity_flight_info.view.*
 import kotlinx.android.synthetic.main.flight_item.view.*
 
@@ -35,7 +39,16 @@ class FlightListAdaptor(private val flightList: List<FlightItem>) : RecyclerView
         holder.travelTime2.text = currentItem.returnTravelTime
         holder.cost.text = currentItem.cost
 
+        holder.itemView.setOnClickListener{
+            println(currentItem)
+            val context=holder.imageView.context
+            val intent = Intent(context, FlightInfo::class.java)
+            intent.putExtra("FlightListAdaptor", currentItem)
+            context.startActivity(intent)
 
+            // BEN WHEN YOU WANT TO RECIEVE THE DATA JUST PUT THIS IN YOUR ON CREATE FUNCTION
+            // val flightInfo = intent.getSerializableExtra("FlightListAdaptor") as? FlightItem
+        }
 
     }
 

@@ -1,5 +1,7 @@
 package com.uni.flightfinder.adaptors
 
+import java.io.Serializable
+
 data class FlightItem(val imageResource: Int,
                       val departureTimes: String,
                       val departureAirports:String,
@@ -10,4 +12,4 @@ data class FlightItem(val imageResource: Int,
                       val returnAirports:String,
                       val direct2: String,
                       val returnTravelTime:String,
-                      val cost:String)
+                      val cost:String) : Serializable
