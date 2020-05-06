@@ -45,9 +45,6 @@ class FlightListAdaptor(private val flightList: List<FlightItem>) : RecyclerView
             val intent = Intent(context, FlightInfo::class.java)
             intent.putExtra("FlightListAdaptor", currentItem)
             context.startActivity(intent)
-
-            // BEN WHEN YOU WANT TO RECIEVE THE DATA JUST PUT THIS IN YOUR ON CREATE FUNCTION
-            // val flightInfo = intent.getSerializableExtra("FlightListAdaptor") as? FlightItem
         }
 
     }
