@@ -7,6 +7,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:statusBarColor">@color/lightBackground</item>
         <item name="android:windowLightStatusBar">true</item>
+        <item name="android:fontFamily">@font/sailec_medium</item>
     </style>
 
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
@@ -15,6 +16,16 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:statusBarColor">@android:color/white</item>
         <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+    <style name="AppThemeBlue" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:statusBarColor">@color/colorPrimary</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:fontFamily">@font/sailec_medium</item>
+
     </style>
 
 </resources>

@@ -1,132 +1,203 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="4dp">
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:backgroundTint="@android:color/white"
+        app:cardUseCompatPadding="true"
+        app:cardCornerRadius="10dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="8dp">
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp">
 
 
-        <ImageView
-            android:id="@+id/image_view"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginEnd="8dp"
-            android:src="@drawable/ic_airplane" />
+            <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="British Airways"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/flight_time_view_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/image_view"
-            android:text="07:45 - 09:45"
-            android:textColor="@android:color/black"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            <TextView
+                    android:id="@+id/price_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="$94.77"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
+            <View
+                    android:id="@+id/separator2"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/separator"
+                    app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
-        <TextView
-            android:id="@+id/airportsID_view_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/flight_time_view_1"
-            android:layout_toEndOf="@id/image_view"
-            android:text="MAD - BCN"
-            android:textSize="18sp" />
+            <TextView
+                    android:id="@+id/outbound"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="OUTBOUND"
+                    android:textSize="12sp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@android:color/black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/separator2" />
 
-        <TextView
-            android:id="@+id/travel_time_view_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/flight_time_view_1"
-            android:layout_marginStart="257dp"
-            android:layout_marginTop="1dp"
-            android:layout_toEndOf="@id/image_view"
-            android:text="2h 25m"
-            android:textColor="@android:color/black"
+            <LinearLayout
+                    android:id="@+id/outbound_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_weight="2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/outbound">
 
-            android:textSize="18sp" />
-        <TextView
-            android:id="@+id/direct_view_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="257dp"
-            android:layout_marginTop="1dp"
-            android:layout_toEndOf="@id/image_view"
-            android:text="Direct"
-            android:textColor="@android:color/black"
+                <TextView
+                        android:id="@+id/airportsID_view_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="MAD - BCN"
+                        android:layout_weight="0.50"
+                        android:textStyle="bold"
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp" />
 
-            android:textSize="18sp" />
+                <TextView
+                        android:id="@+id/flight_time_view_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="07:45 - 09:45"
+                        android:layout_weight="0.01"
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
-        <ImageView
-            android:id="@+id/image_view_2"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_below="@id/image_view"
-            android:src="@drawable/ic_airplane" />
-        <TextView
-            android:id="@+id/flight_time_view_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/image_view_2"
-            android:layout_below="@+id/airportsID_view_1"
-            android:layout_marginTop="16dp"
-            android:text="07:45 - 09:45"
-            android:textColor="@android:color/black"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            </LinearLayout>
 
+            <LinearLayout
+                    android:id="@+id/outbound_times"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/outbound_layout">
 
-        <TextView
-            android:id="@+id/airportsID_view_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/flight_time_view_2"
-            android:layout_toEndOf="@id/image_view"
-            android:text="MAD - BCN"
-            android:textSize="18sp" />
+                <TextView
+                        android:id="@+id/travel_time_view_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2h 25m"
+                        android:textColor="@android:color/black"
 
-        <TextView
-            android:id="@+id/travel_time_view_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/flight_time_view_2"
-            android:layout_marginStart="257dp"
-            android:layout_marginTop="1dp"
-            android:layout_toEndOf="@id/image_view"
-            android:text="2h 25m"
-            android:textColor="@android:color/black"
+                        android:textSize="12sp" />
 
-            android:textSize="18sp" />
-        <TextView
-            android:id="@+id/direct_view_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@id/travel_time_view_2"
-            android:layout_marginStart="257dp"
-            android:layout_toEndOf="@id/image_view_2"
-            android:text="Direct"
-            android:textColor="@android:color/black"
+                <TextView
+                        android:layout_marginStart="10dp"
+                        android:id="@+id/direct_view_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Direct"
+                        android:textColor="@android:color/black"
+                        android:textSize="12sp" />
+            </LinearLayout>
 
-            android:textSize="18sp" />
+            <TextView
+                    android:id="@+id/inbound"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="INBOUND"
+                    android:textColor="@android:color/black"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/outbound_times" />
 
-        <TextView
-            android:id="@+id/price_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/travel_time_view_2"
-            android:layout_marginStart="310dp"
+            <LinearLayout
+                    android:id="@+id/inbound_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/inbound"
+                    >
 
-            android:layout_marginTop="32dp"
-            android:text="$94.77"
-            android:textColor="@android:color/black"
-            android:textStyle="bold"
-            android:textSize="22dp" />
+                <TextView
+                        android:id="@+id/airportsID_view_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="MAD - BCN"
+                        android:layout_weight="0.50"
+                        android:textStyle="bold"
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp" />
+
+                <TextView
+                        android:id="@+id/flight_time_view_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="07:45 - 09:45"
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/inbound_layout">
+
+                <TextView
+                        android:id="@+id/travel_time_view_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2h 25m"
+
+                        android:textColor="@android:color/black"
+                        android:textSize="12sp" />
+
+                <TextView
+                        android:layout_marginStart="10dp"
+                        android:id="@+id/direct_view_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Direct"
+                        android:textColor="@android:color/black"
+                        android:textSize="12sp" />
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+                android:id="@+id/colourStrip"
+                android:layout_width="7dp"
+                android:minWidth="7dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:background="@color/colorPrimary"
+                android:visibility="visible"/>
+
 
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

@@ -3,12 +3,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+        android:background="@color/lightBackground">
 
+
+    <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="15dp"
+            android:paddingBottom="100dp"
+            android:text="London - Paris"
+            android:background="@drawable/gradient_bg"
+            android:textSize="30dp"
+            android:gravity="center"
+            android:textColor="@android:color/white"/>
+
+    <View
+            android:id="@+id/gradient"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@drawable/gradient_bg"
+            android:layout_below="@id/title"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:padding="4dp"
+            android:layout_below="@id/gradient"
         android:clipToPadding="false"
         android:layout_width = "match_parent"
         android:layout_height = "match_parent"
