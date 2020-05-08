@@ -11,173 +11,356 @@ tools:context=".MainActivity">
     <androidx.appcompat.widget.Toolbar
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?attr/colorPrimary"
     android:theme="?attr/actionBarTheme"
     android:minHeight="?attr/actionBarSize"
-    android:backgroundTint="@color/lightBackground"
+    android:background="@drawable/gradient_bg"
     app:layout_constraintTop_toTopOf="parent" android:id="@+id/toolbar2">
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:tint="@color/colorPrimaryDark"
-        app:srcCompat="@drawable/ic_menu"
-        tools:layout_editor_absoluteY="4dp"
-        tools:layout_editor_absoluteX="0dp"
-        android:id="@+id/imageButton"/>
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="300dp"
+            android:layout_marginTop="20dp"
         android:fontFamily="@font/sailec_bold"
-        android:text="Overview"
+        android:text="Search Flights"
         android:textSize="25sp"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="@android:color/white"
         android:layout_gravity="center"
         android:id="@+id/toolbar_title"/>
 
 </androidx.appcompat.widget.Toolbar>
 
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="380dp"
-        android:layout_height="693dp"
-        android:background="#A3FFCE"
-        android:backgroundTint="#40217A73"
-        android:fillViewport="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar2">
-
-        <LinearLayout
+    <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:layout_marginTop="80dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:backgroundTint="@android:color/white"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="parent"
+            tools:layout_editor_absoluteX="10dp">
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="14dp"
-                tools:layout_editor_absoluteX="-176dp"
-                tools:layout_editor_absoluteY="293dp" />
-
-            <EditText
-                android:id="@+id/fromText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#031B4E"
-                android:ems="10"
-                android:foregroundTint="#00000000"
-                android:hint="From"
-                android:inputType="textPersonName"
-                android:textColor="#000000"
-                android:textColorLink="#00FFFFFF"
-                android:autofillHints="" />
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="14dp"
-                tools:layout_editor_absoluteX="-176dp"
-                tools:layout_editor_absoluteY="293dp" />
-
-            <EditText
-                android:id="@+id/toText"
+        <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#031B4E"
-                android:ems="10"
-                android:foregroundTint="#00000000"
-                android:hint="To "
-                android:inputType="textPersonName"
-                android:textColor="#000000"
-                android:textColorLink="#00FFFFFF" />
+                android:fillViewport="false"
+                android:layout_margin="20dp">
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="14dp"
-                tools:layout_editor_absoluteX="-176dp"
-                tools:layout_editor_absoluteY="293dp" />
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-            <Button
-                android:id="@+id/findAirportsBtn"
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:backgroundTint="#031B4E"
-                android:text="Find Airports" />
+                <TextView
+                        android:id="@+id/textView5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Select Airport"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        android:textColor="@color/colorPrimary"/>
 
-            <Spinner
-                android:id="@+id/departingSpinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#031B4E"
-                android:backgroundTintMode="src_in"
-                android:foregroundTint="#000000"
-                android:outlineAmbientShadowColor="#000000"
-                android:outlineSpotShadowColor="#000000" />
+                <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="6dp"
+                        tools:layout_editor_absoluteX="-176dp"
+                        tools:layout_editor_absoluteY="293dp" />
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="14dp"
-                tools:layout_editor_absoluteX="-176dp"
-                tools:layout_editor_absoluteY="293dp" />
+                <EditText
+                        android:id="@+id/fromText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autofillHints=""
+                        android:backgroundTint="@color/colorPrimaryDark"
+                        android:ems="10"
+                        android:foregroundTint="#00000000"
+                        android:hint="Departure"
+                        android:theme="@style/EntryTheme"
+                        android:inputType="textPersonName"
+                        android:textColor="#000000"
+                        android:textColorHint="@android:color/darker_gray"
+                        android:textColorLink="#00FFFFFF" />
 
-            <Spinner
-                android:id="@+id/destinationSpinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#031B4E"
-                android:backgroundTintMode="src_in" />
+                <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="14dp"
+                        tools:layout_editor_absoluteX="-176dp"
+                        tools:layout_editor_absoluteY="293dp" />
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="14dp"
-                tools:layout_editor_absoluteX="-176dp"
-                tools:layout_editor_absoluteY="293dp" />
+                <EditText
+                        android:id="@+id/toText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/colorPrimaryDark"
+                        android:ems="10"
+                        android:foregroundTint="#00000000"
+                        android:hint="Arrival"
+                        android:inputType="textPersonName"
+                        android:textColor="#000000"
+                        android:textColorHint="@android:color/darker_gray"
+                        android:textColorLink="@android:color/darker_gray" />
 
-            <CalendarView
-                android:id="@+id/departureCalendarView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#031B4E"
-                android:focusedMonthDateColor="#000000"
-                android:foregroundTint="#000000"
-                android:foregroundTintMode="add"
-                android:outlineSpotShadowColor="#000000"
-                android:unfocusedMonthDateColor="#000000"
-                android:weekNumberColor="#000000"
-                android:weekSeparatorLineColor="#000000" />
+                <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="14dp"
+                        tools:layout_editor_absoluteX="-176dp"
+                        tools:layout_editor_absoluteY="293dp" />
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="14dp"
-                tools:layout_editor_absoluteX="-176dp"
-                tools:layout_editor_absoluteY="293dp" />
+                <Button
+                        android:id="@+id/findAirportsBtn"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:text="Find Airports"
+                        android:textSize="18sp"
+                        android:textAllCaps="false"
+                        android:background="@drawable/rounded_button"/>
 
-            <CalendarView
-                android:id="@+id/returnCalendarView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#031B4E" />
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="14dp"
-                tools:layout_editor_absoluteX="-176dp"
-                tools:layout_editor_absoluteY="293dp" />
+                <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="14dp"
+                        tools:layout_editor_absoluteX="-176dp"
+                        tools:layout_editor_absoluteY="293dp" />
 
-            <Button
-                android:id="@+id/destinationBtn"
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:backgroundTint="#031B4E"
-                android:text="Find Flights" />
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                tools:layout_editor_absoluteX="-176dp"
-                tools:layout_editor_absoluteY="293dp" />
+                <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/separator"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"/>
 
-        </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+
+                    <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginLeft="20dp"
+                            app:layout_constraintStart_toStartOf="parent">
+
+                        <TextView
+                                android:id="@+id/textView7"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="From"
+                                android:textColor="@android:color/black" />
+
+                        <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                            <TextView
+                                    android:id="@+id/FromCodeText"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="HRW"
+                                    android:textColor="@color/colorPrimary"
+                                    android:textSize="20sp"
+                                    android:textStyle="bold" />
+
+                            <Spinner
+                                    android:id="@+id/departingSpinner"
+                                    android:layout_width="30dp"
+                                    android:layout_height="wrap_content"
+                                    android:backgroundTint="@color/colorPrimaryDark"
+                                    android:backgroundTintMode="src_in"
+                                    android:foregroundTint="@android:color/black"
+                                    android:outlineAmbientShadowColor="#000000"
+                                    android:outlineSpotShadowColor="#000000"
+                                    android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                                    android:theme="@style/ThemeOverlay.AppCompat.Light"/>
+                        </LinearLayout>
+
+                        <TextView
+                                android:id="@+id/FromLocation"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="London"
+                                android:textColor="@android:color/black" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginRight="20dp"
+                            app:layout_constraintEnd_toEndOf="parent">
+
+                        <TextView
+                                android:id="@+id/textView6"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="To"
+                                android:textColor="@android:color/black" />
+
+                        <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                            <TextView
+                                    android:id="@+id/ToCodeText"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="CDG"
+                                    android:textColor="@color/colorPrimary"
+                                    android:textSize="20sp"
+                                    android:textStyle="bold" />
+
+                            <Spinner
+                                    android:id="@+id/destinationSpinner"
+                                    android:layout_width="30dp"
+                                    android:layout_height="wrap_content"
+                                    android:foregroundTint="@android:color/black"
+                                    android:backgroundTint="@color/colorPrimaryDark"
+                                    android:backgroundTintMode="src_in"
+                                    android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                                    android:theme="@style/ThemeOverlay.AppCompat.Light"/>
+                        </LinearLayout>
+
+                        <TextView
+                                android:id="@+id/ToLocation"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Paris"
+                                android:textColor="@android:color/black" />
+                    </LinearLayout>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/separator"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"/>
+
+
+
+
+                <LinearLayout
+                        android:id="@+id/DepDateClick"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginLeft="20dp"
+                        app:layout_constraintStart_toStartOf="parent">
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Departure Date"
+                            android:textColor="@android:color/black" />
+
+                    <TextView
+                            android:id="@+id/DepDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Unselected"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                    <TextView
+                            android:id="@+id/DepDay"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:textColor="@android:color/black" />
+                </LinearLayout>
+
+                <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/separator"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"/>
+
+                <LinearLayout
+                        android:id="@+id/ReturnDateClick"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginStart="20dp"
+                        app:layout_constraintEnd_toEndOf="parent">
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Return Date"
+                            android:textColor="@android:color/black" />
+
+                    <TextView
+                            android:id="@+id/ReturnDate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Unselected"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                    <TextView
+                            android:id="@+id/ReturnDay"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:textColor="@android:color/black" />
+                </LinearLayout>
+
+
+                <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/separator"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"/>
+
+                <Button
+                        android:id="@+id/destinationBtn"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:text="Find Flights"
+                        android:textSize="18sp"
+                        android:textAllCaps="false"
+                        android:background="@drawable/rounded_button" />
+
+                <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/separator"
+                        android:layout_marginTop="8dp" />
+
+                <Button
+                        android:id="@+id/barcodeButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_gravity="center"
+                        android:textColor="@color/colorPrimary"
+                        android:text="Flight QR Search"
+                        android:textSize="18sp"
+                        android:textAllCaps="false"
+                        android:background="@drawable/rounded_button_border" />
+
+                <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        tools:layout_editor_absoluteX="-176dp"
+                        tools:layout_editor_absoluteY="293dp" />
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
