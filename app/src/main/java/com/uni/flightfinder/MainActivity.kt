@@ -45,6 +45,19 @@ class MainActivity : AppCompatActivity()  {
         var fromText = findViewById<EditText>(R.id.fromText)
         var toText = findViewById<EditText>(R.id.toText)
 
+
+        /*
+        Scan QR code section
+
+         */
+
+        val scanQr = findViewById<Button>(R.id.barcodeButton)
+
+        scanQr.setOnClickListener {
+            val scanQRIntent = Intent(this, ScanQR::class.java)
+            startActivity(scanQRIntent)
+        }
+
         /*
         DEPARTURE/RETURN DATE
 
@@ -56,8 +69,6 @@ class MainActivity : AppCompatActivity()  {
         - Date converter
 
          */
-
-
 
         val toCodeText = findViewById<TextView>(R.id.ToCodeText)
         val toLocation = findViewById<TextView>(R.id.ToLocation)
@@ -220,6 +231,12 @@ class MainActivity : AppCompatActivity()  {
         val toArrayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, ToList)
         toArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         destinationSpinner.setAdapter(toArrayAdapter)
+        /*
+        create listener for updating airport choice
+
+        - Get the item that was clicked
+        - Update the textViews that show the user what choice they made
+         */
 
         var destListener:AdapterView.OnItemSelectedListener = object:
             AdapterView.OnItemSelectedListener {
@@ -259,6 +276,13 @@ class MainActivity : AppCompatActivity()  {
         val fromArrayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, FromList)
         fromArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         departingSpinner.setAdapter(fromArrayAdapter)
+
+        /*
+        create listener for updating airport choice
+
+        - Get the item that was clicked
+        - Update the textViews that show the user what choice they made
+         */
 
         var depListener:AdapterView.OnItemSelectedListener = object:
             AdapterView.OnItemSelectedListener {
