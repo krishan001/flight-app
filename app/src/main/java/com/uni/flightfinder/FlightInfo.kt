@@ -34,6 +34,8 @@ class FlightInfo : AppCompatActivity() {
     }
 
     fun showFlightInfo() {
+        val nameData: TextView = findViewById(R.id.afi_flightNameData)
+        nameData.text = flight.departureAirports
         // Fill outbound data
         val outTime1: TextView = findViewById(R.id.afi_outboundTime1Data)
         val outTime2: TextView = findViewById(R.id.afi_outboundTime2Data)
