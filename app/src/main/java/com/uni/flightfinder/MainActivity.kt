@@ -208,6 +208,7 @@ class MainActivity : AppCompatActivity()  {
 
             var sendDepart = departingSpinner.selectedItem.toString()
 
+            //ensures the selected airport is not default
             if ((("(")in sendDepart) && ((")") in sendDepart)){
                 sendDepart = sendDepart.split("(")[1].split(")")[0] + "-sky"
                 doIt = true
@@ -217,10 +218,12 @@ class MainActivity : AppCompatActivity()  {
 
 
             var sendDestination = destinationSpinner.selectedItem.toString()
-
+            //ensures that default airport not selected in this spinner or previous one.
             if ((("(")in sendDestination) && ((")") in sendDestination)){
                 sendDestination = sendDestination.split("(")[1].split(")")[0] + "-sky"
-                doIt = true
+                if (doIt){
+                    doIt = true
+                }
             } else {
                 doIt = false
             }
@@ -380,13 +383,7 @@ class MainActivity : AppCompatActivity()  {
                     updateTo()
                 } else {
 
-
-                    Toast.makeText(
-                        this@MainActivity,
-                        response.body().toString(),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    Toast.makeText(this@MainActivity, response.message(), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@MainActivity, "Enter a location", Toast.LENGTH_SHORT).show()
 
                 }
             }
@@ -426,14 +423,7 @@ class MainActivity : AppCompatActivity()  {
                     updateFrom()
 
                 } else {
-
-
-                    Toast.makeText(
-                        this@MainActivity,
-                        response.body().toString(),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    Toast.makeText(this@MainActivity, response.message(), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@MainActivity, "Enter a location", Toast.LENGTH_SHORT).show()
 
                 }
             }
