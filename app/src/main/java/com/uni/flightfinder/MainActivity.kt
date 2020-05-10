@@ -1,23 +1,24 @@
 package com.uni.flightfinder
 
+import android.app.DatePickerDialog
+import android.app.DatePickerDialog.OnDateSetListener
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.*
-import androidx.core.os.bundleOf
+import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
 import com.uni.flightfinder.adaptors.Airport
-import com.uni.flightfinder.adaptors.RawFlightItem
 import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.IOException
+import java.util.*
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity()  {
 
     val EXTRA_MESSAGE = "com.uni.MainActivity"
     lateinit var nextPageIntent: Intent
@@ -28,6 +29,7 @@ class MainActivity : AppCompatActivity() {
     var ToList = mutableListOf("")
     var outboundDate: String = ""
     var inboundDate: String = ""
+
     //var disposable: Disposable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,11 +37,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         FromList = mutableListOf("Pending...")
         ToList = mutableListOf("Pending...")
-
-
-        val departureDate = findViewById<CalendarView>(R.id.departureCalendarView)
-        val returnDate = findViewById<CalendarView>(R.id.returnCalendarView)
-
 
         updateFrom()
         updateTo()
@@ -49,6 +46,147 @@ class MainActivity : AppCompatActivity() {
         var toText = findViewById<EditText>(R.id.toText)
 
 
+        /*
+        Scan QR code section
+
+         */
+
+        val scanQr = findViewById<Button>(R.id.barcodeButton)
+
+        scanQr.setOnClickListener {
+            val scanQRIntent = Intent(this, ScanQR::class.java)
+            startActivity(scanQRIntent)
+        }
+
+        /*
+        DEPARTURE/RETURN DATE
+
+        - Set onClick for Containers
+        - Load a date picker dialog if the container is clicked
+        - Set the date variables when the date picker is updated
+
+        //Added
+        - Date converter
+
+         */
+
+        val toCodeText = findViewById<TextView>(R.id.ToCodeText)
+        val toLocation = findViewById<TextView>(R.id.ToLocation)
+
+        val depDate = findViewById<TextView>(R.id.DepDate)
+        val returnDate = findViewById<TextView>(R.id.ReturnDate)
+        val depDay = findViewById<TextView>(R.id.DepDay)
+        val returnDay = findViewById<TextView>(R.id.ReturnDay)
+
+        val departureContainer = findViewById<LinearLayout>(R.id.DepDateClick)
+        var depDateSetListener: OnDateSetListener
+
+        //Set ready to be changed by the date picker
+        var departureCal = Calendar.getInstance()
+        var returnCal = Calendar.getInstance()
+
+        val returnContainer = findViewById<LinearLayout>(R.id.ReturnDateClick)
+        var returnDateSetListener: OnDateSetListener
+
+        depDateSetListener =
+            OnDateSetListener { datePicker, year, month, day ->
+                //Set selected date to calendar
+                val cal = Calendar.getInstance()
+                val locale = Locale.getDefault()
+                cal.set(year,month,day)
+
+                //set departure date
+                departureCal.set(year,month,day)
+
+                if (!inboundDate.equals("")){
+                    if (returnCal.timeInMillis < departureCal.timeInMillis) {
+                        inboundDate = ""
+                        returnDate.setText("Unselected")
+                        returnDay.setText("")
+
+                    }
+                }
+
+                //Update UI objects and variables
+                val dayOfWeek =
+                    cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, locale)
+                val monthOfYear =
+                    cal.getDisplayName(Calendar.MONTH, Calendar.SHORT, locale)
+
+                var monthString = convertDate(month+1)
+                var dayString = convertDate(day)
+
+                depDate.setText("$dayString $monthOfYear")
+                depDay.setText("$dayOfWeek $year")
+
+                outboundDate = "$year-$monthString-$dayString"
+            }
+
+        departureContainer.setOnClickListener {
+            val cal: Calendar = Calendar.getInstance()
+            val year: Int = cal.get(Calendar.YEAR)
+            val month: Int = cal.get(Calendar.MONTH)
+            val day: Int = cal.get(Calendar.DAY_OF_MONTH)
+
+            val dialog = DatePickerDialog(
+                this,
+                R.style.CalendarDatePickerDialog,
+                depDateSetListener,
+                year, month, day
+            )
+            dialog.datePicker.minDate = System.currentTimeMillis() - 1000
+            dialog.show()
+        }
+
+
+        returnDateSetListener =
+            OnDateSetListener { datePicker, year, month, day ->
+                //Set selected date to calendar
+                val cal = Calendar.getInstance()
+                val locale = Locale.getDefault()
+                cal.set(year,month,day)
+                returnCal.set(year,month,day)
+
+                //set departure date
+                val dayOfWeek =
+                    cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, locale)
+                val monthOfYear =
+                    cal.getDisplayName(Calendar.MONTH, Calendar.SHORT, locale)
+
+                //Update UI objects and variables
+                var monthString = convertDate(month)
+                var dayString = convertDate(day)
+
+                returnDate.setText("$dayString $monthOfYear")
+                returnDay.setText("$dayOfWeek $year")
+
+                inboundDate = "$year-$monthString-$dayString"
+
+            }
+
+        returnContainer.setOnClickListener {
+            if (outboundDate.equals("")) {
+                Toast.makeText(this@MainActivity, "Please set departure date.", Toast.LENGTH_SHORT).show()
+            }
+            else {
+                val cal: Calendar = Calendar.getInstance()
+                val year: Int = cal.get(Calendar.YEAR)
+                val month: Int = cal.get(Calendar.MONTH)
+                val day: Int = cal.get(Calendar.DAY_OF_MONTH)
+
+                val dialog = DatePickerDialog(
+                    this,
+                    R.style.CalendarDatePickerDialog,
+                    returnDateSetListener,
+                    year, month, day
+                )
+                dialog.datePicker.minDate = departureCal.timeInMillis
+                dialog.show()
+            }
+        }
+
+
+
         //sets button listener.
         btnAirport?.setOnClickListener {
             getAirports(
@@ -56,6 +194,7 @@ class MainActivity : AppCompatActivity() {
                 toText.text.toString()
             )
         }
+
 
         //sets button listener.
         destinationBtn?.setOnClickListener {
@@ -72,54 +211,106 @@ class MainActivity : AppCompatActivity() {
             startActivity(nextPageIntent)
         }
 
-        //updates callendar value
-        departureDate?.setOnDateChangeListener { _, year, month, day ->
-            var monthString = ""
-            var dayString = ""
-            if (month + 1 < 10) {
-                monthString = "0" + (month + 1).toString()
-            } else {
-                monthString = (month + 1).toString()
-            }
-            if (day < 10) {
-                dayString = "0" + (day).toString()
-            }
-            outboundDate = "$year-$monthString-$dayString"
-            //println(outboundDate)
-
-        }
-
-        //updates callendar value
-        returnDate?.setOnDateChangeListener { _, year, month, day ->
-            var monthString = ""
-            var dayString = ""
-            if (month + 1 < 10) {
-                monthString = "0" + (month + 1).toString()
-            } else {
-                monthString = (month + 1).toString()
-            }
-            if (day < 10) {
-                dayString = "0" + (day).toString()
-            }
-            inboundDate = "$year-$monthString-$dayString"
-            //println(inboundDate)
-        }
 
 
     }
+
+    //Converts single value dates to double value dates
+    private fun convertDate(input: Int): String? {
+        return if (input >= 10) {
+            input.toString()
+        } else {
+            "0$input"
+        }
+    }
+
 
     //updates the arrays and spinners for the available airports.
     private fun updateTo() {
+        var destinationSpinner: Spinner = findViewById(R.id.destinationSpinner)
         val toArrayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, ToList)
         toArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        destinationSpinner!!.adapter = toArrayAdapter
+        destinationSpinner.setAdapter(toArrayAdapter)
+        /*
+        create listener for updating airport choice
+
+        - Get the item that was clicked
+        - Update the textViews that show the user what choice they made
+         */
+
+        var destListener:AdapterView.OnItemSelectedListener = object:
+            AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onItemSelected(parent:AdapterView<*>, view:View, position:Int, id:Long) {
+                    (destinationSpinner.getSelectedView() as TextView).setText("")
+
+                    val toCodeText = findViewById<TextView>(R.id.ToCodeText)
+                    val toLocation = findViewById<TextView>(R.id.ToLocation)
+
+                    var item = destinationSpinner.selectedItem.toString()
+                    if (item.equals("Pending...")) {
+                        toCodeText.setText("Pending")
+                        toLocation.setText("")
+                    }
+                    else{
+                        var selected = destinationSpinner.selectedItem.toString()
+                        toCodeText.setText(selected.split("(")[1].split(")")[0])
+                        toLocation.setText(selected.split(",")[0])
+
+                    }
+                }
+            }
+
+        destinationSpinner.onItemSelectedListener = destListener
+
+
     }
+
 
     //updates the arrays and spinners for the available airports.
     private fun updateFrom() {
+        var departingSpinner: Spinner = findViewById(R.id.departingSpinner)
         val fromArrayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, FromList)
         fromArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        departingSpinner!!.adapter = fromArrayAdapter
+        departingSpinner.setAdapter(fromArrayAdapter)
+
+        /*
+        create listener for updating airport choice
+
+        - Get the item that was clicked
+        - Update the textViews that show the user what choice they made
+         */
+
+        var depListener:AdapterView.OnItemSelectedListener = object:
+            AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onItemSelected(parent:AdapterView<*>, view:View, position:Int, id:Long) {
+                (departingSpinner.getSelectedView() as TextView).setText("")
+                val fromCodeText = findViewById<TextView>(R.id.FromCodeText)
+                val fromLocation = findViewById<TextView>(R.id.FromLocation)
+
+                var item = departingSpinner.selectedItem.toString()
+                if (item.equals("Pending...")) {
+                    fromCodeText.setText("Pending")
+                    fromLocation.setText("")
+                }
+                else{
+                    var selected = departingSpinner.selectedItem.toString()
+                    fromCodeText.setText(selected.split("(")[1].split(")")[0])
+                    fromLocation.setText(selected.split(",")[0])
+
+                }
+
+            }
+        }
+
+        departingSpinner.onItemSelectedListener = depListener
 
     }
 
@@ -221,6 +412,7 @@ class MainActivity : AppCompatActivity() {
         })
     }
 }
+
 
 //data class Destinations(
 //   val

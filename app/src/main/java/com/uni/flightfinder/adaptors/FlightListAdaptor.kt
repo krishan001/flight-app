@@ -28,7 +28,7 @@ class FlightListAdaptor(private val flightList: List<FlightItem>) : RecyclerView
     override fun onBindViewHolder(holder: ExampleViewHolder, position: Int) {
         val currentItem = flightList[position]
 
-        holder.imageView.setImageResource(currentItem.imageResource)
+        //holder.imageView.setImageResource(currentItem.imageResource)
         holder.flightTime1.text = currentItem.departureTimes
         holder.airportID1.text = currentItem.departureAirports
         holder.direct1.text = currentItem.direct1
@@ -41,7 +41,7 @@ class FlightListAdaptor(private val flightList: List<FlightItem>) : RecyclerView
 
         holder.itemView.setOnClickListener{
             println(currentItem)
-            val context=holder.imageView.context
+            val context=holder.cost.context
             val intent = Intent(context, FlightInfo::class.java)
             intent.putExtra("FlightListAdaptor", currentItem)
             context.startActivity(intent)
@@ -54,7 +54,7 @@ class FlightListAdaptor(private val flightList: List<FlightItem>) : RecyclerView
 
 
     class ExampleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        val imageView :ImageView = itemView.findViewById(R.id.image_view)
+        //val imageView :ImageView = itemView.findViewById(R.id.image_view)
         val flightTime1: TextView = itemView.flight_time_view_1
         val airportID1: TextView = itemView.airportsID_view_1
         val travelTime1: TextView = itemView.travel_time_view_1
