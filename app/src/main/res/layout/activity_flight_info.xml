@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/lightBackground"
     android:padding="8dp"
     tools:context=".FlightInfo">
 
@@ -13,7 +14,32 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/afi_outboundText"
         android:layout_marginTop="110dp"
+        android:fontFamily="@font/sailec_bold"
         android:text="Return"
+        android:textColor="#000000"
+        android:textSize="36dp" />
+
+    <TextView
+        android:id="@+id/afi_returnPriceText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/afi_returnText"
+        android:layout_marginTop="110dp"
+        android:fontFamily="@font/sailec_bold"
+        android:text="Price:"
+        android:textColor="#000000"
+        android:textSize="36dp" />
+
+    <TextView
+        android:id="@+id/afi_returnPriceData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/afi_returnPriceText"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="0dp"
+        android:fontFamily="@font/sailec_bold"
+        android:text="£94.77"
+        android:textColor="#000000"
         android:textSize="36dp" />
 
     <TextView
@@ -24,17 +50,21 @@
         android:layout_alignStart="@id/afi_returnText"
         android:layout_marginStart="10dp"
         android:layout_marginTop="45dp"
-        android:text="1h 50m" />
+        android:fontFamily="@font/sailec_medium"
+        android:text="1h 50m"
+        android:textColor="#000000" />
 
     <TextView
         android:id="@+id/afi_returnTime1Data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/afi_returnTimeData"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="-32dp"
-        android:layout_toEndOf="@id/afi_returnTimeData"
+        android:layout_toEndOf="@+id/afi_returnDirectData"
+        android:fontFamily="@font/sailec_medium"
         android:text="9:00"
+        android:textColor="#000000"
         android:textSize="24dp" />
 
     <TextView
@@ -42,32 +72,36 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/afi_returnTimeData"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="40dp"
         android:layout_marginBottom="-32dp"
-        android:layout_toEndOf="@id/afi_returnTimeData"
+        android:layout_toEndOf="@+id/afi_returnDirectData"
+        android:fontFamily="@font/sailec_medium"
         android:text="10:50"
+        android:textColor="#000000"
         android:textSize="24dp" />
 
     <TextView
         android:id="@+id/afi_returnLoc1Data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/afi_returnTime1Data"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="0dp"
+        android:layout_alignBottom="@+id/afi_returnTime1Data"
+        android:layout_marginStart="14dp"
         android:layout_toEndOf="@id/afi_returnTime1Data"
+        android:fontFamily="@font/sailec_light"
         android:text="BCN"
+        android:textColor="#000000"
         android:textSize="24dp" />
 
     <TextView
         android:id="@+id/afi_returnLoc2Data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/afi_returnTime2Data"
+        android:layout_alignBottom="@+id/afi_returnTime2Data"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="0dp"
         android:layout_toEndOf="@id/afi_returnTime2Data"
+        android:fontFamily="@font/sailec_light"
         android:text="MAD"
+        android:textColor="#000000"
         android:textSize="24dp" />
 
     <ImageView
@@ -83,8 +117,10 @@
         android:layout_centerInParent="false"
         android:layout_marginLeft="30dp"
         android:layout_toRightOf="@id/afi_imageView1"
+        android:fontFamily="@font/sailec_medium"
         android:gravity="center|center_horizontal|left"
         android:text="Flight Info For:"
+        android:textColor="#000000"
         android:textSize="36sp" />
 
     <TextView
@@ -94,8 +130,10 @@
         android:layout_below="@id/afi_flightNameText"
         android:layout_alignLeft="@id/afi_flightNameText"
         android:layout_centerInParent="false"
+        android:fontFamily="@font/sailec_bold"
         android:gravity="center|center_horizontal|left"
         android:text="MAD-BCN"
+        android:textColor="#000000"
         android:textSize="36sp" />
 
     <TextView
@@ -104,61 +142,122 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/afi_imageView1"
         android:layout_marginTop="10dp"
+        android:fontFamily="@font/sailec_bold"
         android:text="Outbound"
+        android:textColor="#000000"
         android:textSize="36dp" />
 
     <TextView
-        android:id="@+id/afi_outbountTimeData"
+        android:id="@+id/afi_outboundTimeData"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/afi_outboundText"
         android:layout_alignStart="@+id/afi_outboundText"
         android:layout_marginStart="10dp"
         android:layout_marginTop="45dp"
-        android:text="1h 50m" />
+        android:fontFamily="@font/sailec_medium"
+        android:text="1h 50m"
+        android:textColor="#000000" />
 
     <TextView
         android:id="@+id/afi_outboundTime1Data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/afi_outbountTimeData"
-        android:layout_marginStart="20dp"
+        android:layout_alignTop="@+id/afi_outboundTimeData"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="-32dp"
-        android:layout_toEndOf="@+id/afi_outbountTimeData"
+        android:layout_toEndOf="@+id/afi_outboundDirectData"
+        android:fontFamily="@font/sailec_medium"
         android:text="9:00"
+        android:textColor="#000000"
         android:textSize="24dp" />
 
     <TextView
         android:id="@+id/afi_outboundTime2Data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/afi_outbountTimeData"
-        android:layout_marginStart="20dp"
+        android:layout_alignBottom="@+id/afi_outboundTimeData"
+        android:layout_marginStart="40dp"
         android:layout_marginBottom="-32dp"
-        android:layout_toEndOf="@+id/afi_outbountTimeData"
+        android:layout_toEndOf="@+id/afi_outboundDirectData"
+        android:fontFamily="@font/sailec_medium"
         android:text="10:50"
+        android:textColor="#000000"
         android:textSize="24dp" />
 
     <TextView
-        android:id="@+id/afi_outbountLoc1Data"
+        android:id="@+id/afi_outboundLoc1Data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/afi_outboundTime1Data"
+        android:layout_alignBottom="@+id/afi_outboundTime1Data"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="0dp"
         android:layout_toEndOf="@+id/afi_outboundTime1Data"
+        android:fontFamily="@font/sailec_light"
         android:text="MAD"
+        android:textColor="#000000"
         android:textSize="24dp" />
 
     <TextView
-        android:id="@+id/afi_outbountLoc2Data"
+        android:id="@+id/afi_outboundLoc2Data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/afi_outboundTime2Data"
+        android:layout_alignBottom="@+id/afi_outboundTime2Data"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="0dp"
         android:layout_toEndOf="@id/afi_outboundTime2Data"
+        android:fontFamily="@font/sailec_light"
         android:text="BCN"
+        android:textColor="#000000"
         android:textSize="24dp" />
+
+    <Button
+        android:id="@+id/afi_qrbutton"
+        android:layout_width="match_parent"
+        android:layout_height="85dp"
+        android:layout_below="@+id/afi_returnPriceText"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/sailec_medium"
+        android:onClick="generateQRCode"
+        android:text="Generate QR Code" />
+
+    <TextView
+        android:id="@+id/afi_outboundDirectData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/afi_outboundTimeData"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="0dp"
+        android:layout_toEndOf="@+id/afi_outboundTimeData"
+        android:text="Direct"
+        android:textColor="#000000" />
+
+    <TextView
+        android:id="@+id/afi_returnDirectData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/afi_returnTimeData"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/afi_returnTimeData"
+        android:text="Direct"
+        android:textColor="#000000" />
+
+    <ImageView
+        android:id="@+id/afi_outboundDestImage"
+        android:layout_width="39dp"
+        android:layout_height="78dp"
+        android:layout_alignTop="@+id/afi_outboundDirectData"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="-30dp"
+        android:layout_toEndOf="@+id/afi_outboundDirectData"
+        app:srcCompat="@drawable/ic_destinationvector" />
+
+    <ImageView
+        android:id="@+id/afi_outboundDestImage2"
+        android:layout_width="39dp"
+        android:layout_height="78dp"
+        android:layout_alignTop="@+id/afi_returnDirectData"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="-30dp"
+        android:layout_toEndOf="@+id/afi_returnDirectData"
+        app:srcCompat="@drawable/ic_destinationvector" />
 
 </RelativeLayout>
