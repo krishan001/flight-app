@@ -15,6 +15,11 @@ class ShowQR : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_show_qr)
 
+        /*
+        Take a flight info object and serialise it to JSON
+        Encode the json into a QR code and display it.
+         */
+
         val flight = intent.getSerializableExtra("FlightInfo") as? FlightItem ?: throw Exception("No flight passed")
 
         val barcodeView = findViewById<ImageView>(R.id.genBarcode)

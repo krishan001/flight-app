@@ -55,7 +55,13 @@ class ScanQR : AppCompatActivity(), BarcodeRetriever {
 
     override fun onRetrieved(barcode: Barcode?) {
 
-        runOnUiThread(Runnable { Toast.makeText(applicationContext, barcode?.displayValue, Toast.LENGTH_SHORT).show() })
+        /*
+        Deserialise the barcode data
+         - Get the data from the barcode capture
+         - Use GSON to deserialise the data into a FlightItem
+            -- If this fails then the barcode is not a Flight Finder barcode
+         - Start the flight info activity with the new FlightItem object
+         */
 
         val gson = Gson()
 
@@ -89,7 +95,7 @@ class ScanQR : AppCompatActivity(), BarcodeRetriever {
         runOnUiThread(
             object : Runnable {
                 override fun run() {
-                    println("Hi")
+                    runOnUiThread(Runnable { Toast.makeText(applicationContext, "QR codes cannot be scanned without camera permission.", Toast.LENGTH_LONG).show() })
                 }
             }
         )
