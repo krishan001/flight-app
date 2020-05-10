@@ -22,7 +22,7 @@
         <activity
                 android:name=".ListFlights"
                 android:theme="@style/AppThemeBlue"></activity>
-        <activity android:name=".FlightInfo"></activity>
+        <activity android:name=".FlightInfo" android:theme="@style/AppThemeBlue"></activity>
         <activity
                 android:name=".MainActivity"
                 android:theme="@style/AppThemeBlue">

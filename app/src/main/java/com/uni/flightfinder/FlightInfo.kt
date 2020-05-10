@@ -25,7 +25,7 @@ class FlightInfo : AppCompatActivity() {
 
     // To be called by the onClick of a button in the layout
     fun generateQRCode(view: View) {
-        val img : ImageView = findViewById(R.id.afi_imageView1)
+        val img : TextView = findViewById(R.id.afi_returnPriceData)
 
         val context=img.context
         val intent = Intent(context, ShowQR::class.java)
