@@ -1,9 +1,12 @@
 package com.uni.flightfinder
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
+import com.google.gson.Gson
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.BarcodeEncoder
 import com.uni.flightfinder.adaptors.FlightItem
@@ -22,9 +25,12 @@ class FlightInfo : AppCompatActivity() {
 
     // To be called by the onClick of a button in the layout
     fun generateQRCode(view: View) {
-        val flightString = flight.toString()
-        val encoder = BarcodeEncoder()
-        val qrCode = encoder.encodeBitmap(flightString, BarcodeFormat.QR_CODE, 500, 500)
+        val img : ImageView = findViewById(R.id.afi_imageView1)
+
+        val context=img.context
+        val intent = Intent(context, ShowQR::class.java)
+        intent.putExtra("FlightInfo", flight)
+        context.startActivity(intent)
     }
 
     fun showFlightInfo() {
