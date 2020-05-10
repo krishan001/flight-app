@@ -95,7 +95,7 @@ class ScanQR : AppCompatActivity(), BarcodeRetriever {
         runOnUiThread(
             object : Runnable {
                 override fun run() {
-                    println("Hi")
+                    runOnUiThread(Runnable { Toast.makeText(applicationContext, "QR codes cannot be scanned without camera permission.", Toast.LENGTH_LONG).show() })
                 }
             }
         )
