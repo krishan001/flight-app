@@ -21,16 +21,24 @@ import java.util.*
 
 class MainActivity : AppCompatActivity()  {
 
+    //tells intent where request has come from
     val EXTRA_MESSAGE = "com.uni.MainActivity"
+
+    //intent will be given data when it's required
     lateinit var nextPageIntent: Intent
+
+    //instance of the restApi class
     val restServe by lazy {
         restAPI.create()
     }
+
+    //used for the location spinners
     var FromList = mutableListOf("")
     var ToList = mutableListOf("")
+
+    //datestrings
     var outboundDate: String = ""
     var inboundDate: String = ""
-    //var disposable: Disposable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,9 +76,6 @@ class MainActivity : AppCompatActivity()  {
         - Date converter
 
          */
-
-        //val toCodeText = findViewById<TextView>(R.id.ToCodeText)
-        //val toLocation = findViewById<TextView>(R.id.ToLocation)
 
         val depDate = findViewById<TextView>(R.id.DepDate)
         val returnDate = findViewById<TextView>(R.id.ReturnDate)
@@ -163,6 +168,7 @@ class MainActivity : AppCompatActivity()  {
 
             }
 
+
         returnContainer.setOnClickListener {
             if (outboundDate.equals("")) {
                 Toast.makeText(this@MainActivity, "Please set departure date.", Toast.LENGTH_SHORT).show()
@@ -195,7 +201,7 @@ class MainActivity : AppCompatActivity()  {
         }
 
 
-        //sets button listener.
+        //sets button listener and sends user to next page if validation permits.
         destinationBtn?.setOnClickListener {
             nextPageIntent = Intent(this, ListFlights::class.java)
             var doIt = false
@@ -336,6 +342,12 @@ class MainActivity : AppCompatActivity()  {
 
 
     //gets airports using from and to strings.
+    /*
+    asynchronous requests to the api as completed by the restAPI.kt
+    onFailure called if bad request or api is down.
+    onRequest can still be unsuccessful if is cast to wrong data type.
+     */
+
     private fun getAirports(from: String, to: String) {
 
         getAirports(from)
