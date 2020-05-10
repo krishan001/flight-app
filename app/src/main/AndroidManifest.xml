@@ -15,10 +15,11 @@
         <activity
                 android:name=".ShowQR"
                 android:exported="true"
-                android:theme="@style/AppTheme"></activity>
+                android:theme="@style/AppThemeBlue"></activity>
         <activity
                 android:name=".ScanQR"
-                android:exported="true"></activity>
+                android:exported="true"
+                android:theme="@style/AppThemeBlue"></activity>
         <activity
                 android:name=".ListFlights"
                 android:theme="@style/AppThemeBlue"></activity>

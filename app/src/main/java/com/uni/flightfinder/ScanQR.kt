@@ -1,19 +1,22 @@
 package com.uni.flightfinder
 
-import android.app.Dialog;
+
+import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
 import android.util.SparseArray
-import android.widget.ImageButton
-import android.widget.Toast
 import android.view.View
-
+import android.widget.ImageButton
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-
-
 import com.google.android.gms.samples.vision.barcodereader.BarcodeCapture
 import com.google.android.gms.samples.vision.barcodereader.BarcodeGraphic
 import com.google.android.gms.vision.barcode.Barcode
+import com.google.gson.Gson
+import com.uni.flightfinder.adaptors.FlightItem
 import xyz.belvi.mobilevisionbarcodescanner.BarcodeRetriever
+import java.lang.Exception
 
 
 class ScanQR : AppCompatActivity(), BarcodeRetriever {
@@ -53,6 +56,21 @@ class ScanQR : AppCompatActivity(), BarcodeRetriever {
     override fun onRetrieved(barcode: Barcode?) {
 
         runOnUiThread(Runnable { Toast.makeText(applicationContext, barcode?.displayValue, Toast.LENGTH_SHORT).show() })
+
+        val gson = Gson()
+
+        try {
+            val flightItem: FlightItem = gson.fromJson<FlightItem>(barcode?.displayValue, FlightItem::class.java)
+            val img : TextView = findViewById(R.id.textView12)
+
+            val context=img.context
+            val intent = Intent(context, FlightInfo::class.java)
+            intent.putExtra("FlightListAdaptor", flightItem)
+            context.startActivity(intent)
+        }
+        catch (e: Exception) {
+            runOnUiThread(Runnable { Toast.makeText(applicationContext, "Unrecognised QR code. Please Use a Flight Finder generated QR code.", Toast.LENGTH_LONG).show() })
+        }
     }
 
     override fun onRetrievedMultiple(closetToClick: Barcode?, barcode: MutableList<BarcodeGraphic>?) {
