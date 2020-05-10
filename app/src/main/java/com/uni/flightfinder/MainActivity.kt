@@ -15,6 +15,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.time.LocalDateTime
 import java.util.*
 
 
@@ -29,7 +30,6 @@ class MainActivity : AppCompatActivity()  {
     var ToList = mutableListOf("")
     var outboundDate: String = ""
     var inboundDate: String = ""
-
     //var disposable: Disposable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +44,6 @@ class MainActivity : AppCompatActivity()  {
         val btnAirport = findViewById<Button>(R.id.findAirportsBtn)
         var fromText = findViewById<EditText>(R.id.fromText)
         var toText = findViewById<EditText>(R.id.toText)
-
 
         /*
         Scan QR code section
@@ -70,8 +69,8 @@ class MainActivity : AppCompatActivity()  {
 
          */
 
-        val toCodeText = findViewById<TextView>(R.id.ToCodeText)
-        val toLocation = findViewById<TextView>(R.id.ToLocation)
+        //val toCodeText = findViewById<TextView>(R.id.ToCodeText)
+        //val toLocation = findViewById<TextView>(R.id.ToLocation)
 
         val depDate = findViewById<TextView>(R.id.DepDate)
         val returnDate = findViewById<TextView>(R.id.ReturnDate)
@@ -199,16 +198,37 @@ class MainActivity : AppCompatActivity()  {
         //sets button listener.
         destinationBtn?.setOnClickListener {
             nextPageIntent = Intent(this, ListFlights::class.java)
-            var sendDepart =
-                departingSpinner.selectedItem.toString().split("(")[1].split(")")[0] + "-sky"
-            var sendDestination =
-                destinationSpinner.selectedItem.toString().split("(")[1].split(")")[0] + "-sky"
-            var toSend = arrayListOf(sendDepart, sendDestination, outboundDate, inboundDate)
+            var doIt = false
 
-//            var toSend = arrayOf(sendDepart, sendDestination, outboundDate, inboundDate)
-            println("GOOD TO GO!")
-            nextPageIntent.putExtra(EXTRA_MESSAGE, toSend)
-            startActivity(nextPageIntent)
+            var sendDepart = departingSpinner.selectedItem.toString()
+
+            if ((("(")in sendDepart) && ((")") in sendDepart)){
+                sendDepart = sendDepart.split("(")[1].split(")")[0] + "-sky"
+                doIt = true
+            } else {
+                doIt = false
+            }
+
+
+            var sendDestination = destinationSpinner.selectedItem.toString()
+
+            if ((("(")in sendDestination) && ((")") in sendDestination)){
+                sendDestination = sendDestination.split("(")[1].split(")")[0] + "-sky"
+                doIt = true
+            } else {
+                doIt = false
+            }
+
+            if (doIt) {
+                var toSend = arrayListOf(sendDepart, sendDestination, outboundDate, inboundDate)
+
+                nextPageIntent.putExtra(EXTRA_MESSAGE, toSend)
+                startActivity(nextPageIntent)
+            }
+            else {
+                Toast.makeText(this@MainActivity, "Please choose valid airports.", Toast.LENGTH_SHORT).show()
+
+            }
         }
 
 
