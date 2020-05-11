@@ -120,6 +120,11 @@ class ListFlights : AppCompatActivity() {
 
                     val flightList = getFlightList(toSend)
                     println("FLIGHT LIST $flightList")
+                    if (flightList.isEmpty()){
+                        val intent = Intent(this@ListFlights, MainActivity::class.java)
+                        startActivity(intent)
+                        Toast.makeText(this@ListFlights,"There are no flights available", Toast.LENGTH_SHORT).show()
+                    }
                     recycler_view.adapter = FlightListAdaptor(flightList)
                     recycler_view.layoutManager = LinearLayoutManager(this@ListFlights)
                     recycler_view.setHasFixedSize(true)
