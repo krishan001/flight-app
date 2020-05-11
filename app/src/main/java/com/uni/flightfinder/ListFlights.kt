@@ -1,5 +1,6 @@
 package com.uni.flightfinder
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
 import android.widget.Toast
@@ -32,7 +33,10 @@ class ListFlights : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list_flights)
         val toProcess = intent.getSerializableExtra("com.uni.MainActivity") as ArrayList<String>
-        println("TO PROCESS $toProcess")
+        if(toProcess[2] == ""){
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
         getQuotes(toProcess[0], toProcess[1], toProcess[2], toProcess[3])
 
     }
