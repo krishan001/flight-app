@@ -1,6 +1,7 @@
 package com.uni.flightfinder
 
 import android.os.Bundle
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -111,6 +112,8 @@ class ListFlights : AppCompatActivity() {
                     recycler_view.adapter = FlightListAdaptor(flightList)
                     recycler_view.layoutManager = LinearLayoutManager(this@ListFlights)
                     recycler_view.setHasFixedSize(true)
+                    val title: TextView = findViewById<TextView>(R.id.title)
+                    title.text = flightList[0].departureAirports
                 }
                 else{
 
