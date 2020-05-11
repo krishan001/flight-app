@@ -1,5 +1,6 @@
 package com.uni.flightfinder
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
 import android.widget.Toast
@@ -32,7 +33,7 @@ class ListFlights : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list_flights)
         val toProcess = intent.getSerializableExtra("com.uni.MainActivity") as ArrayList<String>
-        println("TO PROCESS $toProcess")
+        println("TOPROCESS $toProcess")
         getQuotes(toProcess[0], toProcess[1], toProcess[2], toProcess[3])
 
     }
@@ -118,6 +119,7 @@ class ListFlights : AppCompatActivity() {
                     toSend = gson.fromJson(jsonString, token)
 
                     val flightList = getFlightList(toSend)
+                    println("FLIGHT LIST $flightList")
                     recycler_view.adapter = FlightListAdaptor(flightList)
                     recycler_view.layoutManager = LinearLayoutManager(this@ListFlights)
                     recycler_view.setHasFixedSize(true)
