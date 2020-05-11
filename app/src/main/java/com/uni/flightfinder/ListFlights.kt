@@ -24,9 +24,10 @@ class ListFlights : AppCompatActivity() {
         restAPI.create()
     }
 
-
-
-
+    /*
+    * On create this activity will get the data from the previous activity
+    * and pass it to the relevant functions to process it
+    * */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list_flights)
@@ -35,7 +36,10 @@ class ListFlights : AppCompatActivity() {
         getQuotes(toProcess[0], toProcess[1], toProcess[2], toProcess[3])
 
     }
-
+    /*
+    * This function takes the raw data from the API and formats it
+    * in a way that the rest of the program can interact with
+    * */
     private fun getFlightList(item:RawFlightItem?):List<FlightItem>{
         val list = ArrayList<FlightItem>()
         var direct:String
@@ -62,6 +66,9 @@ class ListFlights : AppCompatActivity() {
         return list
     }
 
+    /*
+    * Parses the data in order to get the outbound airport codes
+    * */
     private fun getOutboundAirports(quotes:RawQuote, places:List<RawPlaces>): String{
         var code = ""
         val id = quotes.OutboundLeg.OriginId
@@ -72,7 +79,9 @@ class ListFlights : AppCompatActivity() {
         }
         return code
     }
-
+    /*
+    * Parses the data in order to get the inbound airport codes
+    * */
     private fun getInboundAirports(quotes:RawQuote, places:List<RawPlaces>): String{
         var code = ""
         val id = quotes.OutboundLeg.DestinationId
@@ -86,12 +95,13 @@ class ListFlights : AppCompatActivity() {
 
 
 
-
+    /*
+    * Makes the API call to get the quotes for the flight information
+    * and calls the subsequent functions
+    * */
 
     private fun getQuotes(sendDepart: String, sendDestination: String, outboundDate: String, inboundDate: String ){
 
-
-        //swap outbound and inbound date to be from the intent.
         var maker = restServe.getQuotes(sendDepart,sendDestination,outboundDate,inboundDate) //needs to take data from the text box(es)
 
         maker.enqueue(object: Callback<JsonObject> {
@@ -106,7 +116,6 @@ class ListFlights : AppCompatActivity() {
 
                     //this is to become the parseable variable
                     toSend = gson.fromJson(jsonString, token)
-                    println("TO SEND $toSend")
 
                     val flightList = getFlightList(toSend)
                     recycler_view.adapter = FlightListAdaptor(flightList)
@@ -127,8 +136,6 @@ class ListFlights : AppCompatActivity() {
                 Toast.makeText(this@ListFlights,"Api not responding", Toast.LENGTH_SHORT).show()
             }
         })
-
-        println("RETURN $toSend")
 
     }
 }
