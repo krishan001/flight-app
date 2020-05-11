@@ -35,16 +35,6 @@ class ListFlights : AppCompatActivity() {
 
     }
 
-    private fun generateDummyList(size:Int): List<FlightItem>{
-        val list = ArrayList<FlightItem>()
-        for (i in 0 until size){
-            val drawable = R.drawable.ic_airplane
-            val item = FlightItem(drawable, "07:45 - 09:45", "MAD-BCN", "Direct", "2h 28m",
-                "21:30 - 22:50", "BCN - MAD", "Direct", "2h 25m", "£98")
-            list += item
-        }
-        return list
-    }
     private fun getFlightList(item:RawFlightItem?):List<FlightItem>{
         val list = ArrayList<FlightItem>()
         var direct:String
@@ -118,7 +108,6 @@ class ListFlights : AppCompatActivity() {
                     println("TO SEND $toSend")
 
                     val flightList = getFlightList(toSend)
-                    val exampleList = generateDummyList(100)
                     recycler_view.adapter = FlightListAdaptor(flightList)
                     recycler_view.layoutManager = LinearLayoutManager(this@ListFlights)
                     recycler_view.setHasFixedSize(true)
