@@ -5,30 +5,31 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.uni.flightfinder.FlightInfo
-import com.uni.flightfinder.ListFlights
 import com.uni.flightfinder.R
-import com.uni.flightfinder.ShowQR
-import kotlinx.android.synthetic.main.activity_flight_info.view.*
 import kotlinx.android.synthetic.main.flight_item.view.*
 
-class FlightListAdaptor(private val flightList: List<FlightItem>) : RecyclerView.Adapter<FlightListAdaptor.ExampleViewHolder>(){
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExampleViewHolder {
+class FlightListAdaptor(private val flightList: List<FlightItem>) : RecyclerView.Adapter<FlightListAdaptor.FlightViewHolder>(){
+    /*
+    * when it is created the information is displayed
+    * */
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FlightViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.flight_item,
             parent,false)
 
-        return ExampleViewHolder(itemView)
+        return FlightViewHolder(itemView)
 
     }
 
-    override fun onBindViewHolder(holder: ExampleViewHolder, position: Int) {
+    /*
+    * Sets the value of a particular item in the recyclerview based on the
+    * information retrieved from the API
+    * */
+    override fun onBindViewHolder(holder: FlightViewHolder, position: Int) {
         val currentItem = flightList[position]
 
-        //holder.imageView.setImageResource(currentItem.imageResource)
         holder.flightTime1.text = currentItem.departureTimes
         holder.airportID1.text = currentItem.departureAirports
         holder.direct1.text = currentItem.direct1
@@ -40,7 +41,6 @@ class FlightListAdaptor(private val flightList: List<FlightItem>) : RecyclerView
         holder.cost.text = currentItem.cost
 
         holder.itemView.setOnClickListener{
-            println(currentItem)
             val context=holder.cost.context
             val intent = Intent(context, FlightInfo::class.java)
             intent.putExtra("FlightListAdaptor", currentItem)
@@ -51,10 +51,10 @@ class FlightListAdaptor(private val flightList: List<FlightItem>) : RecyclerView
 
     override fun getItemCount() = flightList.size
 
-
-
-    class ExampleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        //val imageView :ImageView = itemView.findViewById(R.id.image_view)
+    /*
+    * links the values to the xml
+    * */
+    class FlightViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val flightTime1: TextView = itemView.flight_time_view_1
         val airportID1: TextView = itemView.airportsID_view_1
         val travelTime1: TextView = itemView.travel_time_view_1
@@ -64,7 +64,5 @@ class FlightListAdaptor(private val flightList: List<FlightItem>) : RecyclerView
         val travelTime2: TextView = itemView.travel_time_view_2
         val direct2: TextView = itemView.direct_view_2
         val cost: TextView = itemView.price_view
-
-
     }
 }
