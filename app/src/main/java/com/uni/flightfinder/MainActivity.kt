@@ -228,6 +228,9 @@ class MainActivity : AppCompatActivity()  {
                 doIt = false
             }
 
+            if (outboundDate == "" || inboundDate == ""){
+                doIt = false
+            }
             if (doIt) {
                 var toSend = arrayListOf(sendDepart, sendDestination, outboundDate, inboundDate)
 
@@ -235,7 +238,7 @@ class MainActivity : AppCompatActivity()  {
                 startActivity(nextPageIntent)
             }
             else {
-                Toast.makeText(this@MainActivity, "Please choose valid airports.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MainActivity, "Please choose valid airports and valid dates", Toast.LENGTH_SHORT).show()
 
             }
         }

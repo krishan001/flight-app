@@ -33,10 +33,7 @@ class ListFlights : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list_flights)
         val toProcess = intent.getSerializableExtra("com.uni.MainActivity") as ArrayList<String>
-        if(toProcess[2] == ""){
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-        }
+        println("TOPROCESS $toProcess")
         getQuotes(toProcess[0], toProcess[1], toProcess[2], toProcess[3])
 
     }
@@ -122,6 +119,7 @@ class ListFlights : AppCompatActivity() {
                     toSend = gson.fromJson(jsonString, token)
 
                     val flightList = getFlightList(toSend)
+                    println("FLIGHT LIST $flightList")
                     recycler_view.adapter = FlightListAdaptor(flightList)
                     recycler_view.layoutManager = LinearLayoutManager(this@ListFlights)
                     recycler_view.setHasFixedSize(true)
