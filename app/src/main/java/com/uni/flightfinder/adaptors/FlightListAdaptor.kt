@@ -12,7 +12,9 @@ import com.uni.flightfinder.R
 import kotlinx.android.synthetic.main.flight_item.view.*
 
 class FlightListAdaptor(private val flightList: List<FlightItem>) : RecyclerView.Adapter<FlightListAdaptor.FlightViewHolder>(){
-
+    /*
+    * when it is created the information is displayed
+    * */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FlightViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.flight_item,
             parent,false)
@@ -21,10 +23,13 @@ class FlightListAdaptor(private val flightList: List<FlightItem>) : RecyclerView
 
     }
 
+    /*
+    * Sets the value of a particular item in the recyclerview based on the
+    * information retrieved from the API
+    * */
     override fun onBindViewHolder(holder: FlightViewHolder, position: Int) {
         val currentItem = flightList[position]
 
-        //holder.imageView.setImageResource(currentItem.imageResource)
         holder.flightTime1.text = currentItem.departureTimes
         holder.airportID1.text = currentItem.departureAirports
         holder.direct1.text = currentItem.direct1
@@ -46,7 +51,9 @@ class FlightListAdaptor(private val flightList: List<FlightItem>) : RecyclerView
 
     override fun getItemCount() = flightList.size
 
-
+    /*
+    * links the values to the xml
+    * */
     class FlightViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val flightTime1: TextView = itemView.flight_time_view_1
         val airportID1: TextView = itemView.airportsID_view_1
