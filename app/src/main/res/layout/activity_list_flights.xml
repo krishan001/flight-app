@@ -13,7 +13,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="15dp"
             android:paddingBottom="100dp"
-            android:text="London - Paris"
+            android:text=""
             android:background="@drawable/gradient_bg"
             android:textSize="30dp"
             android:gravity="center"
